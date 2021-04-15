@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scripts/Bow.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/bow and arrow cut/Bow and Arrows (1).png" type="Texture" id=2]
+[ext_resource path="res://Sprites/bow and arrow cut/tile005.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 5.70239, 3.9077 )
+
+[node name="Bow" type="Area2D"]
+script = ExtResource( 1 )
+
+[node name="BowSprite" type="Sprite" parent="."]
+position = Vector2( 25, 0 )
+scale = Vector2( 2.5, 2.5 )
+z_index = 20
+texture = ExtResource( 2 )
+vframes = 3
+hframes = 3
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ArrowSpawnPosition" type="Position2D" parent="."]
+position = Vector2( 45, 0 )
+
+[node name="BowCollider" type="CollisionShape2D" parent="."]
+position = Vector2( 40, 0 )
+shape = SubResource( 1 )
+
+[node name="DrawArrowPos1" type="Position2D" parent="."]
+position = Vector2( 35, 0 )
+
+[node name="DrawArrowPos2" type="Position2D" parent="."]
+position = Vector2( 32, 0 )
+
+[node name="DrawArrowPos3" type="Position2D" parent="."]
+position = Vector2( 30, 0 )
+
+[node name="ArrowSprite" type="Sprite" parent="."]
+visible = false
+position = Vector2( 0, 0.75 )
+scale = Vector2( 2.5, 1.35 )
+z_index = 19
+texture = ExtResource( 3 )
+[connection signal="body_entered" from="." to="." method="_on_Bow_body_entered"]

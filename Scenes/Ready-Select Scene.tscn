@@ -1,0 +1,10 @@
+[gd_scene format=2]
+
+[node name="Ready-Select Scene" type="Node2D"]
+
+[node name="Ready-Select UI" type="Control" parent="."]
+margin_right = 896.0
+margin_bottom = 504.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
