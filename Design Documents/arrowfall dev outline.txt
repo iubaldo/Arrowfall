@@ -1,0 +1,89 @@
+to-do:
+controls:
+
+bow + mouse tracking - DONE
+camera follow
+controller support - DONE
+menu for switching controls
+	eventually for each player
+support for multiple players (max 4 players) - DONE
+	unique controls for each player - DONE
+	only one keyboard available - DONE?
+jump forgiveness - DONE
+coyote time - DONE
+
+
+systems:
+
+walking - DONE
+jump/double jump - DONE
+shoot arrow - DONE
+arrow physics - DONE
+	fix arrow stuck in place bug - DONE
+	fix arrow jitter on spawn bug - DONE
+proper fsm + move all movement code to seperate methods - DONE
+	idle - DONE
+	walking - DONE
+	jumping - DONE
+	falling - DONE 
+	wall slide - DONE
+	tumble
+	dead
+	restrict certain actions during certain states
+	move wallsidecdtimer to state transitions - DONE
+wall jump - DONE
+variable jump heights
+	jump higher the longer button is held
+	short button press results in min height short hop
+knockback on hit
+	knockback/damage scales with arrow velocity 
+	scale variable 0-1 that controls how much influence the player's inputs have
+		set scale to 0 after being hit and slowly ramp it back up based on knockback amount
+arrow recoil
+	recoil scales with shootPower - DONE, but might remove if annoying
+stock system + proper respawns
+directional shield
+	decrease radius while held out - DONE
+	regenerate over time - DONE
+	proper collision detection - DONE
+	deflect arrows in direction user is looking - DONE
+		arrow retains speed scaling with time shield held out - DONE
+		slightly randomize deflection offset angle scaling with time shield held out
+		NOTE: how to balance arrow deflection with shield size? perfect deflection is way too easy rn
+	slow horizontal speed while shield is held out
+	change arrow/shield detection to work off of layers/groups instead of names
+	stop player from shooting while shield is held out
+items
+	inventory system
+		one offensive + defensive
+		item dropping
+offscreen icon
+	portrait of player pointing in their direction while offscreen
+
+
+map generation:
+
+procedural level generation
+	platform types
+	platform spawning
+	
+
+sprites/animation:
+
+tilesetting
+	parallax
+animations
+	player - DONE
+	bow - DONE
+
+graphics:
+
+figure out proper resolution/sprite scale - DONE?
+
+
+multiplayer:
+pre-game player selection menu
+	smash/rivals of aether-like "training stage" before loading into the game
+		can serve as a tutorial room
+local multiplayer
+online multiplayer?

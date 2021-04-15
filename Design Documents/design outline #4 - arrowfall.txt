@@ -1,0 +1,142 @@
+premise: smash-like party game centered around scaling a tower while shooting foes with arrows
+	inspired by: smash, towerfall ascension
+
+elevator pitch: 
+Arrowfall is a archery-based, smash-like party game where you shoot other players with arrows while trying to ascend a tower.
+Similar to smash, being hit by arrows increases the amount of knockback you take, with being shot off the screen resulting in death. There are two main 
+gamemodes planned, race and survival. Race is a split-screen gamemode with a finite map size with the first player to reach the top of the tower wins. 
+In the Survival gamemode, the screen will continually pan upwards, and falling off the bottom of the screen will result in losing a stock.
+Alongside normal arrows, players will be able to acquire a variety of different arrow types and defensive items for use during the game.
+Finally, upon death, players will still be able to participate via control of a wall-mounted crossbow turret on the sides of the screen.
+If a dead player manages to kill a living player, they will be able to steal one of their stocks and resurrect back into the match.
+
+2 main gamemodes:
+	race: finite map size, first to reach the top wins
+		each player has their own screen, falling off the bottom of the screen does not result in a death
+		more obstacles spawn in this gamemodes
+	survival: infinite amount of platforms, last player standing wins
+		players must scale up the tower as the screen continually moves upwards
+			tower is procedurally generated
+		falling off the edge of the screen results in death
+main mechanics:
+	players have access to a bow and an infinite amount of normal arrows
+		arrows are affected by gravity
+		arrow damage scales with velocity
+		holding down the attack button charges up a shot, increasing arrow velocity and power, but slows down the player
+			this also slows down fall speed, but to a lesser extent than other directions of movement, 
+			allowing for mid-air shots to be more effective
+	players also have access to a double jump
+	taking damage increases a player's knockback, similar to smash
+	falling outside a boundary box outside the visible screen (again, like smash) results in death for the player
+		lives work on a stock system, with each death reducing that player's stocks until they run out
+		players who have run out of stocks are given control of a wall-mounted crossbow turret along the sides of the screen
+				players can move up and down along the sides of the screen, as well as switch sides
+				the turret has a limited ammo pool, but recovers slowly over time
+				defeating a living player results in "stealing" their stock and resurrecting with one stock
+					note that the "dead" player only needs to remove a stock, not fully defeat a "living" player in order to be revived
+	each player has access to a directional shield, controlled similarly to their bow
+		similar to the shield in stick fight, shield size decreases the longer it's held out
+		shield effectiveness regenerates over time when not in use
+	items (including special arrow types) spawn randomly during a game, allowing players to augment their attacks or activate special effects
+		special arrows replace normal arrows for a limited amount of attacks once used
+		only one item may be held at once
+			pressing the item command when an item is nearby picks it up
+			holding the item command while you have an item drops it
+items:
+	offensive items:
+		hookshot arrow: pulls player towards the arrow once it travels a certain distance or impacts with terrain/another player
+			1 use
+		shockwave arrow: detonates on impact, knocking away players within a certain radius
+			3 uses
+		split arrow: fires 5 arrows at once in a cone
+			3 uses
+		gravity arrow: detonates on impact, attracting players within a certain radius to the point of impact for some amount of time
+			1 use
+		shattershot arrow: fires a massive beam attack that passes through terrain at the cost of greatly increasing the user's knockback percent
+			works similar to a gaster blaster, slight windup with hitbox warning
+			1 use
+		featherweight arrow: fires straight without being affected by gravity
+			5 uses
+		delay arrow: arrow stays in place after firing for 2 seconds, then accelerates
+			3 uses
+		heavy arrow: has greatly increased arrow drop, but deals greatly increased damage
+			2 uses
+		recoil arrow: greatly increases recoil player receives when fired
+			2 uses
+		homing arrow: has a mild homing property once launched
+			3 uses
+		linked arrows: fires two arrows that gravitate towards one another while in flight
+			1 use
+	defensive/utility items:
+		NOTE: all defensive items are single-use
+
+		personal jump pad: places a slow-falling jump pad directly below the player
+		bubble shield: omnidirectional shield that blocks all arrows for a limited time
+		hi-jump: jump height is increased greatly for a limited time
+		iron boots: greatly decrease knockback, but also increase fall speed for a limited time
+			
+environment:
+	platforms/terrain:
+		solid: cannot be passed through
+		one-way: can only be passed through from underneath
+		unstable: begins to fall 1 second after being stood on by a player
+		moving platforms: self-explanitory
+			would need player to inherit platform momentum
+	obstacles:
+		jump pad: launches player when stepped on
+			can be oriented in any direction
+		acceleration rune: increases velocity of arrows/players that pass through it
+		glue puddle: decreases jump height when standing on it
+		ice: decreases horizontal acceleration/decceleration
+		portals: linked portals teleport players/projectiles to their twin
+		
+
+things to think about:
+	procedural level design
+	graphics
+		sprite-based
+			harder to make dynamic
+			need someone who can make pixel art
+		3D
+			need to know how to implement dynamic animations on a character model
+		should player model even reflect the direction of aiming?
+			alternative: simply have an indication line in the direction of aiming and keep player model simple
+	making sure jump/movement physics "feel good"
+	arrow physics
+		should arrows stick into terrain? bounce off?
+			arrows stick into terrain
+	teaching players what each item/obstacle does intuitively
+		visual cues
+			held arrows/items reflected in character model
+	local vs online
+		local is easier, but restrictive
+		don't know how to do online features, would need to take time to learn
+			would probably need to develop with online in mind from the beginning
+
+
+other potential ideas:
+	character classes with special abilities/arrows
+		time consuming, need to balance
+		class ideas:
+			short-ranged dash with i-frams
+			wall climb
+			more item slots
+			switch to rapid-fire shots that deal less knockback 
+			has a gun with no projectile drop, but needs to perform a perfect reload (like eltnum from uni)
+			sword that can parry projectiles with a short cooldown
+			
+	more gamemodes
+		duel: tower is replaced with set of floating platforms, more like a traditional smash game
+		arena: co=op gamemode where players face off against a boss
+			also time-consuming
+	more movement abilities
+		airdash
+		walljump
+	more level mechanics
+		buttons/switches: shoot with an arrow to active some sort of effect
+			note: buttons should clearly show what they're linked to
+			ex. button linked to explosives on a different (but linked) platform
+			ex. button linked to destroy a linked platform
+	have the tower be like a 3D cylinder, with players scaling the outside and able to move freely around in a circle
+		would need clever engineering of movement physics
+	replace shield with a melee attack that does no damage, but breaks arrows
