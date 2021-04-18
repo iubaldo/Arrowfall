@@ -1,7 +1,8 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=48 format=2]
 
+[ext_resource path="res://Scripts/Blastzone.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/PF_Caslte_1.0/mainlevbuild_A.png" type="Texture" id=2]
-[ext_resource path="res://Scripts/GameManager.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/PlayerManager.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/TestArrowShooter.tscn" type="PackedScene" id=5]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
@@ -545,6 +546,8 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 [sub_resource type="RectangleShape2D" id=43]
 
 [node name="Main Scene" type="Node2D"]
+
+[node name="PlayerManager" type="Node2D" parent="."]
 script = ExtResource( 3 )
 
 [node name="ForegroundTileMap" type="TileMap" parent="."]
@@ -560,6 +563,7 @@ tile_data = PoolIntArray( 524289, 2, 0, 524290, 1, 2, 524291, 1, 3, 524292, 1, 2
 
 [node name="BlastZone" type="Area2D" parent="."]
 collision_layer = 16
+script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BlastZone"]
 visible = false
@@ -575,3 +579,4 @@ position = Vector2( 112, 168 )
 
 [node name="PlayerSpawnPoint2" type="Node2D" parent="."]
 position = Vector2( 784, 168 )
+[connection signal="body_exited" from="BlastZone" to="PlayerManager" method="_on_BlastZone_body_exited"]

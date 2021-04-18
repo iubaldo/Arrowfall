@@ -39,11 +39,11 @@ func _process(delta):
 		shieldHitbox.disabled = true
 	update()
 	
-func _physics_process(delta):
-	#print("shield disabled: " + var2str(shieldHitbox.disabled))
-	#print("from:" + var2str(angleFrom) + " to: " + var2str(angleTo))
-	# print(var2str(rad2deg((get_local_mouse_position() - position).angle()) + 90))
-	pass
+#func _physics_process(delta):
+#	#print("shield disabled: " + var2str(shieldHitbox.disabled))
+#	#print("from:" + var2str(angleFrom) + " to: " + var2str(angleTo))
+#	# print(var2str(rad2deg((get_local_mouse_position() - position).angle()) + 90))
+#	pass
 	
 func _draw():
 	if active:

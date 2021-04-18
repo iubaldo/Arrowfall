@@ -1,11 +1,14 @@
 extends KinematicBody2D
 
+onready var player = get_node("Player")
 onready var playerSprite : Sprite = get_node("PlayerSprite")
+onready var playerHitbox = get_node("PlayerHitbox")
 onready var powerLabel : Label = get_node("ShootPowerLabel")
 onready var arrowCDTimer : Timer = get_node("Timers/ArrowCDTimer")
 onready var wallSlideCDTimer = get_node("Timers/WallSlideCDTimer")
 onready var wallStickTimer = get_node("Timers/WallStickTimer")
 onready var jumpForgivenessTimer = get_node("Timers/JumpForgivenessTimer")
+onready var respawnStasisTimer = get_node("Timers/RespawnStasisTimer")
 onready var coyoteTimer = get_node("Timers/CoyoteTimer")
 onready var rWallcasts = get_node("Wallcasts/RightWallcasts")
 onready var lWallcasts = get_node("Wallcasts/LeftWallcasts")
@@ -22,13 +25,16 @@ const MIN_JUMPFORCE = -300
 const GRAVITY = 1700
 const FRICTION = 0.25
 const AIR_FRICTION = 0.02
+const WALL_JUMP_VELOCITY = Vector2(225, -550)
 
 var velocity = Vector2()
 var mousePos = Vector2()
 var isJumping = false
 var doubleJump = true
-const WALL_JUMP_VELOCITY = Vector2(225, -550)
 var wallDirection = 1
+var applyGravity = true
+var stasis = false
+var invincible = false
 
 var canShoot = true
 var shootPower = 0
@@ -44,7 +50,7 @@ var pressJump = false
 
 var shieldActive = false
 var maxShieldPower = 30
-var shieldPower = 30
+var shieldPower = 0
 var minShieldPower = 5
 var shieldDecayRate = 12.5
 var shieldRegenRate = 5
@@ -64,6 +70,15 @@ func setControls(ID: int, controller: bool):
 	usingController = controller
 	
 func _process(delta):
+	if !respawnStasisTimer.is_stopped():
+		applyGravity = false
+		invincible = true
+	else:
+		applyGravity = true
+		invincible = false
+	
+	playerHitbox.disabled = true if invincible else false		
+	
 	if shootPower != 0:
 		powerLabel.text = var2str(int(shootPower))
 	else:
@@ -143,7 +158,6 @@ func _physics_process(delta):
 		# doubleJump = true
 		$AnimationTree.set("parameters/Movement/current", int(abs(velocity.x) > 50))
 
-
 	# sprite direction
 	if wallDirection == 0:
 		if !usingController:
@@ -158,6 +172,18 @@ func _physics_process(delta):
 				playerSprite.flip_h = true
 	elif wallDirection != 0 && handleMoveInput().normalized().x == wallDirection:
 		playerSprite.flip_h = wallDirection > 0
+		
+func _input(event):
+	if event is InputEventKey && (stasis || invincible):
+		stasis = false
+		invincible = false
+		
+func onRespawn():
+	player.stocks -= 1
+	invincible = true
+	stasis = true
+	velocity = Vector2.ZERO
+	respawnStasisTimer.start()		
 		
 func getHWeight():
 	if is_on_floor():
@@ -190,18 +216,19 @@ func handleMoveInput():
 	return moveVector
 
 func applyMovement(inputVector, delta):
-	var wasOnFloor = is_on_floor()
-	
-	if inputVector != Vector2.ZERO:
-		velocity.x += inputVector.x * ACCELERATION * delta;
-		velocity.x = clamp(velocity.x, -MAX_SPEED, MAX_SPEED)
-	else:
-		if is_on_floor():
-			velocity.x = lerp(velocity.x, 0, FRICTION)
-		elif wallDirection == 0:
-			velocity.x = lerp(velocity.x, 0, AIR_FRICTION)
-			
-	velocity = move_and_slide(velocity, Vector2.UP)
+	if !stasis:
+		var wasOnFloor = is_on_floor()
+		
+		if inputVector != Vector2.ZERO:
+			velocity.x += inputVector.x * ACCELERATION * delta;
+			velocity.x = clamp(velocity.x, -MAX_SPEED, MAX_SPEED)
+		else:
+			if is_on_floor():
+				velocity.x = lerp(velocity.x, 0, FRICTION)
+			elif wallDirection == 0:
+				velocity.x = lerp(velocity.x, 0, AIR_FRICTION)
+				
+		velocity = move_and_slide(velocity, Vector2.UP)
 		
 func jump():
 	velocity.y = MAX_JUMPFORCE
@@ -214,9 +241,10 @@ func wallJump():
 	isJumping = true
 	
 func applyGravity(delta):
-	velocity.y += GRAVITY * delta
-	if isJumping && velocity.y >= 0:
-		isJumping = false
+	if applyGravity && !stasis:
+		velocity.y += GRAVITY * delta
+		if isJumping && velocity.y >= 0:
+			isJumping = false
 
 func capGravityWallSlide():
 	var maxVelocity = 128 if !Input.is_action_pressed("ui_down") else 2 * 128
@@ -241,8 +269,7 @@ func getWallDirection():
 	else:
 		wallDirection = 0
 
-#func _on_BlastZone_body_exited(body):
-#	if body == self:
-#		#replace with actual respawn later
-#		get_tree().reload_current_scene()
-#		# pass
+
+func _on_RespawnStasisTimer_timeout():
+	stasis = false
+	invincible = false

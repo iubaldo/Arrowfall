@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Sprites/hooded figure cut/full_spritesheet_32x36.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/PlayerStateMachine.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Scripts/PlayerController.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/Bow.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/Shield.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scripts/Player.gd" type="Script" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 5.03585, 8.93967 )
@@ -75,11 +76,14 @@ nodes/Movement/position = Vector2( 500, 140 )
 nodes/Walk/node = SubResource( 11 )
 nodes/Walk/position = Vector2( -20, 300 )
 nodes/output/position = Vector2( 1180, 140 )
-node_connections = [ "output", 0, "InAirState", "MoveTime", 0, "Walk", "InAir", 0, "Fall", "InAir", 1, "Jump", "Movement", 0, "Idle", "Movement", 1, "MoveTime", "InAirState", 0, "Movement", "InAirState", 1, "InAir" ]
+node_connections = [ "output", 0, "InAirState", "Movement", 0, "Idle", "Movement", 1, "MoveTime", "InAirState", 0, "Movement", "InAirState", 1, "InAir", "MoveTime", 0, "Walk", "InAir", 0, "Fall", "InAir", 1, "Jump" ]
 
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 14
 script = ExtResource( 9 )
+
+[node name="Player" type="Node" parent="."]
+script = ExtResource( 12 )
 
 [node name="Bow" parent="." instance=ExtResource( 10 )]
 
@@ -117,6 +121,10 @@ one_shot = true
 
 [node name="CoyoteTimer" type="Timer" parent="Timers"]
 wait_time = 0.1
+one_shot = true
+
+[node name="RespawnStasisTimer" type="Timer" parent="Timers"]
+wait_time = 3.0
 one_shot = true
 
 [node name="StateLabel" type="Label" parent="."]
@@ -209,3 +217,4 @@ enabled = true
 cast_to = Vector2( -13, 0 )
 collision_mask = 2
 collide_with_areas = true
+[connection signal="timeout" from="Timers/RespawnStasisTimer" to="." method="_on_RespawnStasisTimer_timeout"]
