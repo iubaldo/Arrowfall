@@ -3,6 +3,7 @@ extends KinematicBody2D
 onready var player = get_node("Player")
 onready var playerSprite : Sprite = get_node("PlayerSprite")
 onready var playerHitbox = get_node("PlayerHitbox")
+onready var playerFSM = get_node("PlayerFSM")
 onready var powerLabel : Label = get_node("ShootPowerLabel")
 onready var arrowCDTimer : Timer = get_node("Timers/ArrowCDTimer")
 onready var wallSlideCDTimer = get_node("Timers/WallSlideCDTimer")
@@ -14,6 +15,7 @@ onready var rWallcasts = get_node("Wallcasts/RightWallcasts")
 onready var lWallcasts = get_node("Wallcasts/LeftWallcasts")
 onready var bow : Area2D = get_node("Bow")
 onready var shield : Node2D = get_node("Shield")
+onready var animTree = get_node("AnimationTree")
 # onready var offScreenMarker = get_parent().get_node("OffScreenMarker")
 const ARROW = preload("res://Scenes/Arrow.tscn")
 
@@ -26,6 +28,7 @@ const GRAVITY = 1700
 const FRICTION = 0.25
 const AIR_FRICTION = 0.02
 const WALL_JUMP_VELOCITY = Vector2(225, -550)
+const DROP_THRU_BIT = 6 # 7th layer
 
 var velocity = Vector2()
 var mousePos = Vector2()
@@ -143,20 +146,6 @@ func _process(delta):
 	
 # Called 60 times per second
 func _physics_process(delta):	
-	# animation handling
-	if velocity.y < 0:
-		$AnimationTree.set("parameters/InAir/current", 1)
-	else:
-		$AnimationTree.set("parameters/InAir/current", 0)
-		
-	
-	$AnimationTree.set("parameters/MoveTime/scale", 1 + int(abs(velocity.x) * 0.001))
-	$AnimationTree.set("parameters/InAirState/current", int(!is_on_floor())) #$GroundDetectRaycast.is_colliding())
-	
-	# reset double jump
-	if is_on_floor():
-		# doubleJump = true
-		$AnimationTree.set("parameters/Movement/current", int(abs(velocity.x) > 50))
 
 	# sprite direction
 	if wallDirection == 0:
@@ -219,14 +208,22 @@ func applyMovement(inputVector, delta):
 	if !stasis:
 		var wasOnFloor = is_on_floor()
 		
-		if inputVector != Vector2.ZERO:
+		if inputVector != Vector2.ZERO:			
 			velocity.x += inputVector.x * ACCELERATION * delta;
 			velocity.x = clamp(velocity.x, -MAX_SPEED, MAX_SPEED)
+			
+			if inputVector.y < 0 && ![playerFSM.states.jump, playerFSM.states.fall].has(playerFSM.state):
+				if inputVector.x != 0:
+					velocity.x *= 0.9
+				else:
+					velocity.x = 0
 		else:
 			if is_on_floor():
 				velocity.x = lerp(velocity.x, 0, FRICTION)
 			elif wallDirection == 0:
 				velocity.x = lerp(velocity.x, 0, AIR_FRICTION)
+				
+		
 				
 		velocity = move_and_slide(velocity, Vector2.UP)
 		
@@ -269,7 +266,10 @@ func getWallDirection():
 	else:
 		wallDirection = 0
 
-
 func _on_RespawnStasisTimer_timeout():
 	stasis = false
 	invincible = false
+
+func _on_PlatformDetector_body_exited(body):
+	set_collision_mask_bit(DROP_THRU_BIT, true)
+	print(var2str(get_collision_mask_bit(DROP_THRU_BIT)))

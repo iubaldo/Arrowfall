@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Sprites/hooded figure cut/full_spritesheet_32x36.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/PlayerStateMachine.gd" type="Script" id=2]
@@ -58,7 +58,7 @@ input_1/auto_advance = false
 animation = "PlayerWalk"
 
 [sub_resource type="AnimationNodeBlendTree" id=12]
-graph_offset = Vector2( -183, 155 )
+graph_offset = Vector2( -66, 121 )
 nodes/Fall/node = SubResource( 4 )
 nodes/Fall/position = Vector2( 500, 340 )
 nodes/Idle/node = SubResource( 5 )
@@ -78,14 +78,18 @@ nodes/Walk/position = Vector2( -20, 300 )
 nodes/output/position = Vector2( 1180, 140 )
 node_connections = [ "output", 0, "InAirState", "Movement", 0, "Idle", "Movement", 1, "MoveTime", "InAirState", 0, "Movement", "InAirState", 1, "InAir", "MoveTime", 0, "Walk", "InAir", 0, "Fall", "InAir", 1, "Jump" ]
 
+[sub_resource type="RectangleShape2D" id=13]
+
 [node name="Player" type="KinematicBody2D"]
-collision_mask = 14
+collision_mask = 78
 script = ExtResource( 9 )
 
 [node name="Player" type="Node" parent="."]
 script = ExtResource( 12 )
 
 [node name="Bow" parent="." instance=ExtResource( 10 )]
+collision_layer = 0
+collision_mask = 0
 
 [node name="Shield" parent="." instance=ExtResource( 11 )]
 
@@ -217,4 +221,15 @@ enabled = true
 cast_to = Vector2( -13, 0 )
 collision_mask = 2
 collide_with_areas = true
+
+[node name="PlatformDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformDetector"]
+position = Vector2( -1.189, 25 )
+scale = Vector2( 1.25, 0.25 )
+shape = SubResource( 13 )
+
 [connection signal="timeout" from="Timers/RespawnStasisTimer" to="." method="_on_RespawnStasisTimer_timeout"]
+[connection signal="body_exited" from="PlatformDetector" to="." method="_on_PlatformDetector_body_exited"]

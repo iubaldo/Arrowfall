@@ -579,4 +579,5 @@ position = Vector2( 112, 168 )
 
 [node name="PlayerSpawnPoint2" type="Node2D" parent="."]
 position = Vector2( 784, 168 )
+
 [connection signal="body_exited" from="BlastZone" to="PlayerManager" method="_on_BlastZone_body_exited"]
