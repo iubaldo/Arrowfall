@@ -76,7 +76,7 @@ nodes/Movement/position = Vector2( 500, 140 )
 nodes/Walk/node = SubResource( 11 )
 nodes/Walk/position = Vector2( -20, 300 )
 nodes/output/position = Vector2( 1180, 140 )
-node_connections = [ "output", 0, "InAirState", "Movement", 0, "Idle", "Movement", 1, "MoveTime", "InAirState", 0, "Movement", "InAirState", 1, "InAir", "MoveTime", 0, "Walk", "InAir", 0, "Fall", "InAir", 1, "Jump" ]
+node_connections = [ "output", 0, "InAirState", "InAir", 0, "Fall", "InAir", 1, "Jump", "MoveTime", 0, "Walk", "Movement", 0, "Idle", "Movement", 1, "MoveTime", "InAirState", 0, "Movement", "InAirState", 1, "InAir" ]
 
 [sub_resource type="RectangleShape2D" id=13]
 
@@ -172,19 +172,18 @@ parameters/MoveTime/scale = 1.0
 parameters/Movement/current = 0
 
 [node name="Groundcasts" type="Node2D" parent="."]
-visible = false
 
 [node name="RightGroundcast" type="RayCast2D" parent="Groundcasts"]
-position = Vector2( 8, 0 )
+position = Vector2( 8, 20 )
 enabled = true
-cast_to = Vector2( 0, 20 )
-collision_mask = 2
+cast_to = Vector2( 0, 5 )
+collision_mask = 66
 collide_with_areas = true
 
 [node name="LeftGroundcast" type="RayCast2D" parent="Groundcasts"]
-position = Vector2( -8, 0 )
+position = Vector2( -8, 20 )
 enabled = true
-cast_to = Vector2( 0, 20 )
+cast_to = Vector2( 0, 5 )
 collision_mask = 2
 collide_with_areas = true
 

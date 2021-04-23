@@ -13,6 +13,7 @@ onready var respawnStasisTimer = get_node("Timers/RespawnStasisTimer")
 onready var coyoteTimer = get_node("Timers/CoyoteTimer")
 onready var rWallcasts = get_node("Wallcasts/RightWallcasts")
 onready var lWallcasts = get_node("Wallcasts/LeftWallcasts")
+onready var groundcasts = get_node("Groundcasts")
 onready var bow : Area2D = get_node("Bow")
 onready var shield : Node2D = get_node("Shield")
 onready var animTree = get_node("AnimationTree")
@@ -35,9 +36,11 @@ var mousePos = Vector2()
 var isJumping = false
 var doubleJump = true
 var wallDirection = 1
-var applyGravity = true
+var useGravity = true
 var stasis = false
 var invincible = false
+var snapVector = Vector2.DOWN * 32
+var isGrounded = false
 
 var canShoot = true
 var shootPower = 0
@@ -68,19 +71,26 @@ func _ready():
 	# set_position(Vector2(500, 300))
 	$AnimationTree.active = true
 	
+	
 func setControls(ID: int, controller: bool):
 	playerID = ID
 	usingController = controller
 	
+	
 func _process(delta):
 	if !respawnStasisTimer.is_stopped():
-		applyGravity = false
+		useGravity = false
 		invincible = true
 	else:
-		applyGravity = true
+		useGravity = true
 		invincible = false
 	
-	playerHitbox.disabled = true if invincible else false		
+	playerHitbox.disabled = true if invincible else false
+	
+	if isGrounded:
+		snapVector = Vector2.DOWN * 32		
+	if pressJump:
+			snapVector = Vector2.ZERO
 	
 	if shootPower != 0:
 		powerLabel.text = var2str(int(shootPower))
@@ -145,8 +155,9 @@ func _process(delta):
 
 	
 # Called 60 times per second
-func _physics_process(delta):	
-
+func _physics_process(delta):
+	checkIsGrounded()
+	
 	# sprite direction
 	if wallDirection == 0:
 		if !usingController:
@@ -162,17 +173,20 @@ func _physics_process(delta):
 	elif wallDirection != 0 && handleMoveInput().normalized().x == wallDirection:
 		playerSprite.flip_h = wallDirection > 0
 		
+		
 func _input(event):
 	if event is InputEventKey && (stasis || invincible):
 		stasis = false
 		invincible = false
+		
 		
 func onRespawn():
 	player.stocks -= 1
 	invincible = true
 	stasis = true
 	velocity = Vector2.ZERO
-	respawnStasisTimer.start()		
+	respawnStasisTimer.start()
+	
 		
 func getHWeight():
 	if is_on_floor():
@@ -185,12 +199,14 @@ func getHWeight():
 		else: 
 			return 0.1
 			
+			
 func handleWallStick():
 	if handleMoveInput().normalized().x != 0 && handleMoveInput().normalized().x != wallDirection:
 		if wallStickTimer.is_stopped():
 			wallStickTimer.start()
 	else:
 		wallStickTimer.stop()
+		
 		
 func handleMoveInput():
 	var moveVector = Vector2.ZERO
@@ -203,6 +219,7 @@ func handleMoveInput():
 		if inputVector.length() >= deadzone0:
 			moveVector = inputVector.normalized()
 	return moveVector
+	
 
 func applyMovement(inputVector, delta):
 	if !stasis:
@@ -222,14 +239,15 @@ func applyMovement(inputVector, delta):
 				velocity.x = lerp(velocity.x, 0, FRICTION)
 			elif wallDirection == 0:
 				velocity.x = lerp(velocity.x, 0, AIR_FRICTION)
-				
+					
+
+		velocity.y = move_and_slide_with_snap(velocity, snapVector, Vector2.UP, true, 4, deg2rad(60)).y
 		
-				
-		velocity = move_and_slide(velocity, Vector2.UP)
 		
 func jump():
 	velocity.y = MAX_JUMPFORCE
 	isJumping = true
+	
 	
 func wallJump():
 	var wallJumpVelocity = WALL_JUMP_VELOCITY
@@ -237,15 +255,25 @@ func wallJump():
 	velocity = wallJumpVelocity
 	isJumping = true
 	
+	
 func applyGravity(delta):
-	if applyGravity && !stasis:
+	if useGravity && !stasis && !isGrounded:
 		velocity.y += GRAVITY * delta
 		if isJumping && velocity.y >= 0:
 			isJumping = false
 
+
 func capGravityWallSlide():
 	var maxVelocity = 128 if !Input.is_action_pressed("ui_down") else 2 * 128
 	velocity.y = min(velocity.y, maxVelocity)
+	
+	
+func checkIsGrounded():
+	for groundcast in groundcasts.get_children():
+		if groundcast.is_colliding():
+			return true
+	return false
+	
 	
 func isValidWall(wallcasts):
 	for raycast in wallcasts.get_children():
@@ -254,7 +282,8 @@ func isValidWall(wallcasts):
 			if dot > PI * 0.35 && dot < PI * 0.55: # a little more than 60 degrees
 				return true
 	return false
-			
+	
+	
 func getWallDirection():
 	var wallLeft = isValidWall(lWallcasts)
 	var wallRight = isValidWall(rWallcasts)
@@ -266,10 +295,11 @@ func getWallDirection():
 	else:
 		wallDirection = 0
 
+
 func _on_RespawnStasisTimer_timeout():
 	stasis = false
 	invincible = false
+	
 
 func _on_PlatformDetector_body_exited(body):
 	set_collision_mask_bit(DROP_THRU_BIT, true)
-	print(var2str(get_collision_mask_bit(DROP_THRU_BIT)))
