@@ -19,7 +19,6 @@ func _process(delta):
 	if parent.pressJump:
 		if input.y > 0.4:
 			parent.set_collision_mask_bit(parent.DROP_THRU_BIT, false)
-			print("can drop")
 		else:
 			parent.jumpForgivenessTimer.start()
 			if state == states.wallSlide:
