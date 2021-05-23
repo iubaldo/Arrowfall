@@ -29,13 +29,13 @@ var controller_item = "6"
 var controller_pause = "11"
 
 
-var player_1_controller = {  'type': 'keyboard', 'id': 0, 'name': 'player1' }
+#var player_1_controller = {  'type': 'keyboard', 'id': 0, 'name': 'player1' }
 
-var player_2_controller = {  'type': 'keyboard', 'id': 1, 'name': 'player2' }
+#var player_2_controller = {  'type': 'keyboard', 'id': 1, 'name': 'player2' }
 
-var player_3_controller = {  'type': 'keyboard', 'id': 2, 'name': 'player3' }
+#var player_3_controller = {  'type': 'keyboard', 'id': 2, 'name': 'player3' }
 
-var player_4_controller = {  'type': 'keyboard', 'id': 3, 'name': 'player4' }
+#var player_4_controller = {  'type': 'keyboard', 'id': 3, 'name': 'player4' }
 
-var players = [player_1_controller, player_2_controller, player_3_controller, player_4_controller]
-var numPlayers = 2
+#var players = [player_1_controller, player_2_controller, player_3_controller, player_4_controller]
+#var numPlayers = 2

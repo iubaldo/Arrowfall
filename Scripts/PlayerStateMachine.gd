@@ -14,7 +14,6 @@ func _ready():
 	
 func _process(delta):
 	# stateLabel.text = states.keys()[state]
-	
 	var input = parent.handleMoveInput()		
 	if parent.pressJump:
 		if input.y < 0:

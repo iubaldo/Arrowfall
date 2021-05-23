@@ -61,6 +61,8 @@ var minShieldPower = 5
 var shieldDecayRate = 12.5
 var shieldRegenRate = 5
 
+var color = ""
+
 export var playerID := 0
 export var usingController = false
 var deadzone0 = 0.3

@@ -1,6 +1,6 @@
 [gd_scene load_steps=26 format=2]
 
-[ext_resource path="res://Sprites/hooded figure cut/full_spritesheet_32x36.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/hooded figure cut/blueHoodTileset.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/PlayerStateMachine.gd" type="Script" id=2]
 [ext_resource path="res://Fonts/Spectral-Regular.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Animations/Player/PlayerIdle.tres" type="Animation" id=4]
@@ -76,7 +76,7 @@ nodes/Movement/position = Vector2( 500, 140 )
 nodes/Walk/node = SubResource( 11 )
 nodes/Walk/position = Vector2( -20, 300 )
 nodes/output/position = Vector2( 1180, 140 )
-node_connections = [ "output", 0, "InAirState", "InAir", 0, "Fall", "InAir", 1, "Jump", "MoveTime", 0, "Walk", "Movement", 0, "Idle", "Movement", 1, "MoveTime", "InAirState", 0, "Movement", "InAirState", 1, "InAir" ]
+node_connections = [ "output", 0, "InAirState", "Movement", 0, "Idle", "Movement", 1, "MoveTime", "InAirState", 0, "Movement", "InAirState", 1, "InAir", "MoveTime", 0, "Walk", "InAir", 0, "Fall", "InAir", 1, "Jump" ]
 
 [sub_resource type="RectangleShape2D" id=13]
 
@@ -100,6 +100,7 @@ script = ExtResource( 2 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 hframes = 17
+frame = 12
 
 [node name="PlayerHitbox" type="CollisionShape2D" parent="."]
 position = Vector2( -1.31102, 1.71762 )

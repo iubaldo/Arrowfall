@@ -20,6 +20,8 @@ func _process(delta):
 	elif Input.is_action_just_pressed("debug_createPlayerKeyboard"):
 		spawnPlayer(false)
 		
+		
+
 func spawnPlayer(usingController: bool):
 	var player = PLAYER.instance()
 	get_parent().add_child(player)

@@ -62,6 +62,8 @@ func get_input():
 		emit_signal("controller_command", 'controller_item_0', 0)
 	if Input.is_action_just_pressed("controller_pause_0"):
 		emit_signal("controller_command", 'controller_pause_0', 0)
+	if Input.is_action_just_pressed("controller_join_game_0"):
+		emit_signal("controller_command", 'controller_join_game_0', 0)		
 	
 	
 	# Controller 1 Inputs
@@ -93,6 +95,8 @@ func get_input():
 		emit_signal("controller_command", 'controller_item_1', 1)
 	if Input.is_action_just_pressed("controller_pause_1"):
 		emit_signal("controller_command", 'controller_pause_1', 1)
+	if Input.is_action_just_pressed("controller_join_game_1"):
+		emit_signal("controller_command", 'controller_join_game_1', 1)			
 		
 	
 	# Controller 2 Inputs
@@ -124,6 +128,8 @@ func get_input():
 		emit_signal("controller_command", 'controller_item_2', 2)
 	if Input.is_action_just_pressed("controller_pause_2"):
 		emit_signal("controller_command", 'controller_pause_2', 2)
+	if Input.is_action_just_pressed("controller_join_game_2"):
+		emit_signal("controller_command", 'controller_join_game_2', 2)			
 		
 		
 	# Controller 3 Inputs
@@ -155,7 +161,139 @@ func get_input():
 		emit_signal("controller_command", 'controller_item_3', 3)
 	if Input.is_action_just_pressed("controller_pause_3"):
 		emit_signal("controller_command", 'controller_pause_3', 3)
+	if Input.is_action_just_pressed("controller_join_game_3"):
+		emit_signal("controller_command", 'controller_join_game_3', 3)	
 		
+		
+	# Controller 4 Inputs
+	if Input.get_action_strength("controller_move_up_4") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_up_4', Input.get_action_strength("controller_move_up_4"), 4)
+	if Input.get_action_strength("controller_move_down_4") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_down_4', Input.get_action_strength("controller_move_down_4"), 4)
+	if Input.get_action_strength("controller_move_left_4") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_left_4', Input.get_action_strength("controller_move_left_4"), 4)
+	if Input.get_action_strength("controller_move_right_4") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_right_4', Input.get_action_strength("controller_move_right_4"), 4)
+		
+	if Input.get_action_strength("controller_aim_up_4") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_up_4', Input.get_action_strength("controller_aim_up_4"), 4)
+	if Input.get_action_strength("controller_aim_down_4") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_down_4', Input.get_action_strength("controller_aim_down_4"), 4)
+	if Input.get_action_strength("controller_aim_left_4") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_left_4', Input.get_action_strength("controller_aim_left_4"), 4)
+	if Input.get_action_strength("controller_aim_right_4") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_right_4', Input.get_action_strength("controller_aim_right_4"), 4)
+		
+	if Input.is_action_just_pressed("controller_jump_4"):
+		emit_signal("controller_command", 'controller_jump_4', 4)
+	if Input.is_action_just_pressed("controller_fire_4"):
+		emit_signal("controller_command", 'controller_fire_4', 4)
+	if Input.is_action_just_pressed("controller_shield_4"):
+		emit_signal("controller_command", 'controller_shield_4', 4)
+	if Input.is_action_just_pressed("controller_item_4"):
+		emit_signal("controller_command", 'controller_item_4', 4)
+	if Input.is_action_just_pressed("controller_pause_4"):
+		emit_signal("controller_command", 'controller_pause_4', 4)
+	if Input.is_action_just_pressed("controller_join_game_4"):
+		emit_signal("controller_command", 'controller_join_game_4', 4)	
+		
+	# Controller 5 Inputs
+	if Input.get_action_strength("controller_move_up_5") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_up_5', Input.get_action_strength("controller_move_up_5"), 5)
+	if Input.get_action_strength("controller_move_down_5") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_down_5', Input.get_action_strength("controller_move_down_5"), 5)
+	if Input.get_action_strength("controller_move_left_5") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_left_5', Input.get_action_strength("controller_move_left_5"), 5)
+	if Input.get_action_strength("controller_move_right_5") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_right_5', Input.get_action_strength("controller_move_right_5"), 5)
+		
+	if Input.get_action_strength("controller_aim_up_5") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_up_5', Input.get_action_strength("controller_aim_up_5"), 5)
+	if Input.get_action_strength("controller_aim_down_5") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_down_5', Input.get_action_strength("controller_aim_down_5"), 5)
+	if Input.get_action_strength("controller_aim_left_5") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_left_5', Input.get_action_strength("controller_aim_left_5"), 5)
+	if Input.get_action_strength("controller_aim_right_5") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_right_5', Input.get_action_strength("controller_aim_right_5"), 5)
+		
+	if Input.is_action_just_pressed("controller_jump_5"):
+		emit_signal("controller_command", 'controller_jump_5', 5)
+	if Input.is_action_just_pressed("controller_fire_5"):
+		emit_signal("controller_command", 'controller_fire_5', 5)
+	if Input.is_action_just_pressed("controller_shield_5"):
+		emit_signal("controller_command", 'controller_shield_5', 5)
+	if Input.is_action_just_pressed("controller_item_5"):
+		emit_signal("controller_command", 'controller_item_5', 5)
+	if Input.is_action_just_pressed("controller_pause_5"):
+		emit_signal("controller_command", 'controller_pause_5', 5)
+	if Input.is_action_just_pressed("controller_join_game_5"):
+		emit_signal("controller_command", 'controller_join_game_5', 5)	
+				
+
+	# Controller 6 Inputs
+	if Input.get_action_strength("controller_move_up_6") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_up_6', Input.get_action_strength("controller_move_up_6"), 6)
+	if Input.get_action_strength("controller_move_down_6") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_down_6', Input.get_action_strength("controller_move_down_6"), 6)
+	if Input.get_action_strength("controller_move_left_6") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_left_6', Input.get_action_strength("controller_move_left_6"), 6)
+	if Input.get_action_strength("controller_move_right_6") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_right_6', Input.get_action_strength("controller_move_right_6"), 6)
+		
+	if Input.get_action_strength("controller_aim_up_6") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_up_6', Input.get_action_strength("controller_aim_up_6"), 6)
+	if Input.get_action_strength("controller_aim_down_6") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_down_6', Input.get_action_strength("controller_aim_down_6"), 6)
+	if Input.get_action_strength("controller_aim_left_6") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_left_6', Input.get_action_strength("controller_aim_left_6"), 6)
+	if Input.get_action_strength("controller_aim_right_6") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_right_6', Input.get_action_strength("controller_aim_right_6"), 6)
+		
+	if Input.is_action_just_pressed("controller_jump_6"):
+		emit_signal("controller_command", 'controller_jump_6', 6)
+	if Input.is_action_just_pressed("controller_fire_6"):
+		emit_signal("controller_command", 'controller_fire_6', 6)
+	if Input.is_action_just_pressed("controller_shield_6"):
+		emit_signal("controller_command", 'controller_shield_6', 6)
+	if Input.is_action_just_pressed("controller_item_6"):
+		emit_signal("controller_command", 'controller_item_6', 6)
+	if Input.is_action_just_pressed("controller_pause_6"):
+		emit_signal("controller_command", 'controller_pause_6', 6)
+	if Input.is_action_just_pressed("controller_join_game_6"):
+		emit_signal("controller_command", 'controller_join_game_6', 6)	
+		
+
+	# Controller 7 Inputs
+	if Input.get_action_strength("controller_move_up_7") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_up_7', Input.get_action_strength("controller_move_up_7"), 7)
+	if Input.get_action_strength("controller_move_down_7") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_down_7', Input.get_action_strength("controller_move_down_7"), 7)
+	if Input.get_action_strength("controller_move_left_7") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_left_7', Input.get_action_strength("controller_move_left_7"), 7)
+	if Input.get_action_strength("controller_move_right_7") > 0.5:
+		emit_signal("controller_stick_command", 'controller_move_right_7', Input.get_action_strength("controller_move_right_7"), 7)
+		
+	if Input.get_action_strength("controller_aim_up_7") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_up_7', Input.get_action_strength("controller_aim_up_7"), 7)
+	if Input.get_action_strength("controller_aim_down_7") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_down_7', Input.get_action_strength("controller_aim_down_7"), 7)
+	if Input.get_action_strength("controller_aim_left_7") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_left_7', Input.get_action_strength("controller_aim_left_7"), 7)
+	if Input.get_action_strength("controller_aim_right_7") > 0.5:
+		emit_signal("controller_stick_command", 'controller_aim_right_7', Input.get_action_strength("controller_aim_right_7"), 7)
+		
+	if Input.is_action_just_pressed("controller_jump_7"):
+		emit_signal("controller_command", 'controller_jump_7', 7)
+	if Input.is_action_just_pressed("controller_fire_7"):
+		emit_signal("controller_command", 'controller_fire_7', 7)
+	if Input.is_action_just_pressed("controller_shield_7"):
+		emit_signal("controller_command", 'controller_shield_7', 7)
+	if Input.is_action_just_pressed("controller_item_7"):
+		emit_signal("controller_command", 'controller_item_7', 7)
+	if Input.is_action_just_pressed("controller_pause_7"):
+		emit_signal("controller_command", 'controller_pause_7', 7)
+	if Input.is_action_just_pressed("controller_join_game_7"):
+		emit_signal("controller_command", 'controller_join_game_7', 7)	
 
 func _input(event : InputEvent) -> void:
 	if event is InputEventKey:
