@@ -13,11 +13,13 @@ func _ready():
 	call_deferred("setState", states.idle)
 	
 func _process(delta):
-	# stateLabel.text = states.keys()[state]
-	var input = parent.handleMoveInput()		
+	stateLabel.text = states.keys()[state]
+	
+	var input = parent.handleMoveInput()
 	if parent.pressJump:
-		if input.y < 0:
+		if input.y > 0.4:
 			parent.set_collision_mask_bit(parent.DROP_THRU_BIT, false)
+			print("can drop")
 		else:
 			parent.jumpForgivenessTimer.start()
 			if state == states.wallSlide:
@@ -39,6 +41,7 @@ func _process(delta):
 		parent.coyoteTimer.stop()
 		parent.jumpForgivenessTimer.stop()
 		parent.jump()
+	
 		
 	#	if [states.jump, states.doubleJump].has(state):
 		# variable jump height here

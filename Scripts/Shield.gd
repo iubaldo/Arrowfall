@@ -8,9 +8,9 @@ var active = true
 
 var rotationStepAngle = 50
 var targetAngle = 0
-var shieldAngle = 60
+var shieldAngle = 0
 var angleFrom = 0
-var angleTo = 120
+var angleTo = 0
 var center = Vector2(0, 0)
 var radiusInner = 45
 var radiusOuter = 50

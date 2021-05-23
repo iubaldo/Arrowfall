@@ -1,6 +1,6 @@
 extends Node2D
 
-onready var tileMap : TileMap = get_parent().get_parent().get_node("ForegroundTileMap")
+# onready var tileMap : TileMap = get_parent().get_parent().get_node("ForegroundTileMap")
 onready var bowSprite : Sprite = get_node("BowSprite")
 
 onready var basicArrow : Texture = load("res://Sprites/bow and arrow cut/tile005.png")

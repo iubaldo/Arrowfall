@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/background_day1.png-d1df04a6a1d0b1cbc98be1f833c76a3a.stex"
+path="res://.import/background_day1.png-8a010e5817ff5d03a27147bb6c6a6fdc.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/PF_Caslte_1.0/background_day1.png"
-dest_files=[ "res://.import/background_day1.png-d1df04a6a1d0b1cbc98be1f833c76a3a.stex" ]
+source_file="res://Sprites/PF_Castle_1.0/background_day1.png"
+dest_files=[ "res://.import/background_day1.png-8a010e5817ff5d03a27147bb6c6a6fdc.stex" ]
 
 [params]
 

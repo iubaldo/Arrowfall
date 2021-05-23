@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/background_night3.png-7744e2d096872671248a6dd80d08f59b.stex"
+path="res://.import/background_night1.png-a30e0dc81be943d27c5604a57148c718.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/PF_Caslte_1.0/background_night3.png"
-dest_files=[ "res://.import/background_night3.png-7744e2d096872671248a6dd80d08f59b.stex" ]
+source_file="res://Sprites/PF_Castle_1.0/background_night1.png"
+dest_files=[ "res://.import/background_night1.png-a30e0dc81be943d27c5604a57148c718.stex" ]
 
 [params]
 

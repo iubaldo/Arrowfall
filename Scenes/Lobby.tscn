@@ -5,11 +5,11 @@
 [ext_resource path="res://Sprites/HUD Elements/PlayerSilhouttes/P1Box.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/HUD Elements/PlayerSilhouttes/P4Box.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/HUD Elements/ControllerType/controller.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/PF_Caslte_1.0/background_day3.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/PF_Castle_1.0/background_day3.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/HUD Elements/PlayerSilhouttes/P2Box.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/HUD Elements/PlayerSilhouttes/P3Box.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/PF_Caslte_1.0/background_day2.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/PF_Caslte_1.0/background_day1.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/PF_Castle_1.0/background_day2.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/PF_Castle_1.0/background_day1.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/HUD Elements/PlayerSilhouttes/Vacant.png" type="Texture" id=11]
 [ext_resource path="res://Tilesets/PFCastleTileset.tres" type="TileSet" id=12]
 
@@ -155,6 +155,7 @@ stretch_mode = 6
 
 [node name="P3Box" type="TextureRect" parent="CanvasLayer/Ready-Select UI/PlayerBoxes"]
 visible = false
+margin_left = 578.0
 margin_right = 864.0
 margin_bottom = 85.0
 size_flags_horizontal = 3
@@ -257,7 +258,7 @@ __meta__ = {
 
 [node name="P3Controller" type="TextureRect" parent="CanvasLayer/Ready-Select UI/PlayerControllers"]
 visible = false
-margin_left = 813.0
+margin_left = 722.0
 margin_right = 1080.0
 margin_bottom = 85.0
 size_flags_horizontal = 3
@@ -279,8 +280,8 @@ stretch_mode = 6
 
 [node name="P4Controller" type="TextureRect" parent="CanvasLayer/Ready-Select UI/PlayerControllers"]
 visible = false
-margin_left = 675.0
-margin_right = 767.0
+margin_left = 813.0
+margin_right = 1080.0
 margin_bottom = 85.0
 size_flags_horizontal = 3
 size_flags_vertical = 3

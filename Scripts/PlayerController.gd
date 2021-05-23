@@ -231,11 +231,17 @@ func applyMovement(inputVector, delta):
 			velocity.x += inputVector.x * ACCELERATION * delta;
 			velocity.x = clamp(velocity.x, -MAX_SPEED, MAX_SPEED)
 			
-			if inputVector.y < 0 && ![playerFSM.states.jump, playerFSM.states.fall].has(playerFSM.state):
+			if !usingController && inputVector.y < 0 && ![playerFSM.states.jump, playerFSM.states.fall].has(playerFSM.state):
 				if inputVector.x != 0:
 					velocity.x *= 0.9
 				else:
 					velocity.x = 0
+			elif usingController && inputVector.y > 0.4 && ![playerFSM.states.jump, playerFSM.states.fall].has(playerFSM.state):
+				if abs(inputVector.x) > 0.2:
+					velocity.x *= 0.9
+				else:
+					velocity.x = 0
+			
 		else:
 			if is_on_floor():
 				velocity.x = lerp(velocity.x, 0, FRICTION)
