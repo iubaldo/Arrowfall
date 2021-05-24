@@ -25,11 +25,13 @@ const MAX_SPEED = 200
 const JUMPFORCE = -600
 const MAX_JUMPFORCE = -600
 const MIN_JUMPFORCE = -300
+const MAX_JUMP_HEIGHT = 0
+const MIN_JUMP_HEIGHT = 0
 const GRAVITY = 1700
 const FRICTION = 0.25
 const AIR_FRICTION = 0.02
 const WALL_JUMP_VELOCITY = Vector2(225, -550)
-const DROP_THRU_BIT = 6 # 7th layer
+const DROP_THRU_BIT = 6 # 7th collision layer
 
 var velocity = Vector2()
 var mousePos = Vector2()
@@ -231,31 +233,27 @@ func applyMovement(inputVector, delta):
 			velocity.x += inputVector.x * ACCELERATION * delta;
 			velocity.x = clamp(velocity.x, -MAX_SPEED, MAX_SPEED)
 			
-			if !usingController && inputVector.y < 0 && ![playerFSM.states.jump, playerFSM.states.fall].has(playerFSM.state):
-				if inputVector.x != 0:
+			if ((!usingController && inputVector.y < 0) || usingController && inputVector.y > 0.4) && \
+				![playerFSM.states.jump, playerFSM.states.fall].has(playerFSM.state):
+				if (!usingController && inputVector.x != 0) || (usingController && abs(inputVector.x) > 0.2):
 					velocity.x *= 0.9
 				else:
 					velocity.x = 0
-			elif usingController && inputVector.y > 0.4 && ![playerFSM.states.jump, playerFSM.states.fall].has(playerFSM.state):
-				if abs(inputVector.x) > 0.2:
-					velocity.x *= 0.9
-				else:
-					velocity.x = 0
-			
 		else:
 			if is_on_floor():
 				velocity.x = lerp(velocity.x, 0, FRICTION)
 			elif wallDirection == 0:
 				velocity.x = lerp(velocity.x, 0, AIR_FRICTION)
-					
 
 		velocity.y = move_and_slide_with_snap(velocity, snapVector, Vector2.UP, true, 4, deg2rad(60)).y
+		
+		# if !pressJump && velocity.y < -500:
+		# 	velocity.y = -500
 		
 		
 func jump():
 	velocity.y = MAX_JUMPFORCE
 	isJumping = true
-	
 	
 func wallJump():
 	var wallJumpVelocity = WALL_JUMP_VELOCITY
