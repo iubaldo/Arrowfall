@@ -21,17 +21,21 @@ onready var animTree = get_node("AnimationTree")
 const ARROW = preload("res://Scenes/Arrow.tscn")
 
 const ACCELERATION = 800
-const MAX_SPEED = 200
+const MAX_SPEED = 6 * Globals.UNIT_SIZE
 const JUMPFORCE = -600
 const MAX_JUMPFORCE = -600
 const MIN_JUMPFORCE = -300
-const MAX_JUMP_HEIGHT = 0
-const MIN_JUMP_HEIGHT = 0
-const GRAVITY = 1700
+const MAX_JUMP_HEIGHT = 3.25 * Globals.UNIT_SIZE
+const MIN_JUMP_HEIGHT = 1 * Globals.UNIT_SIZE
+const JUMP_DURATION = 0.5 # time to reach peak of jump
+const GRAVITY = 2 * MAX_JUMP_HEIGHT / pow(JUMP_DURATION, 2) #orignal value: 1700
+const MAX_JUMP_VELOCITY = -sqrt(2 * GRAVITY * MAX_JUMP_HEIGHT)
+const MIN_JUMP_VELOCITY = -sqrt(2 * GRAVITY * MIN_JUMP_HEIGHT)
 const FRICTION = 0.25
 const AIR_FRICTION = 0.02
 const WALL_JUMP_VELOCITY = Vector2(225, -550)
 const DROP_THRU_BIT = 6 # 7th collision layer
+
 
 var velocity = Vector2()
 var mousePos = Vector2()
@@ -72,8 +76,9 @@ var deadzone0 = 0.3
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_physics_process(true)
-	# set_position(Vector2(500, 300))
 	$AnimationTree.active = true
+	
+	#gravity = 2 * MAX_JUMP_HEIGHT / pow(jump_durato)
 	
 	
 func setControls(ID: int, controller: bool):

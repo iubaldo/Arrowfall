@@ -27,8 +27,7 @@ proper fsm + move all movement code to seperate methods - DONE
 	jumping - DONE
 	falling - DONE 
 	wall slide - DONE
-	tumble
-	dead
+	stasis, player is invincible and movement code does not apply until a button is pressed - DONE
 	restrict certain actions during certain states
 	move wallsidecdtimer to state transitions - DONE
 wall jump - DONE
@@ -41,22 +40,28 @@ knockback on hit
 		set scale to 0 after being hit and slowly ramp it back up based on knockback amount
 arrow recoil
 	recoil scales with shootPower - DONE, but might remove if annoying
-stock system + proper respawns
+stock system + proper respawns - kinda done? will need to implement properly later
 directional shield
 	decrease radius while held out - DONE
 	regenerate over time - DONE
 	proper collision detection - DONE
 	deflect arrows in direction user is looking - DONE
-		arrow retains speed scaling with time shield held out - DONE
-		slightly randomize deflection offset angle scaling with time shield held out
+		arrow retains speed scaling with time shield held out - DONE	
 		NOTE: how to balance arrow deflection with shield size? perfect deflection is way too easy rn
-	slow horizontal speed while shield is held out
-	change arrow/shield detection to work off of layers/groups instead of names
-	stop player from shooting while shield is held out
+			slightly randomize deflection offset angle scaling with time shield held out?
+	slow horizontal movespeed while shield is held out
+	eventually change arrow/shield detection to work off of layers/groups instead of names
+	stop player from shooting while shield is held out?
+		just set shootpower to 0 while shield is held or something
 items
 	inventory system
-		one offensive + defensive
-		item dropping
+		one offensive + defensive?
+		context-sensitive item button
+			switch between normal arrows and special arrows if available
+			item dropping/switching when standing over another item while one is already held
+				alternatively, item dropping only when holding down + item button
+
+
 offscreen icon
 	portrait of player pointing in their direction while offscreen
 
@@ -78,7 +83,13 @@ animations
 
 graphics:
 
-figure out proper resolution/sprite scale - DONE?
+figure out proper resolution/sprite scale - DONE? might want to increase amount of tiles on screen, but would need to 
+	rescale everything else to fit
+
+sound
+	sfx
+	music
+
 
 
 multiplayer:
@@ -87,3 +98,7 @@ pre-game player selection menu
 		can serve as a tutorial room
 local multiplayer
 online multiplayer?
+
+misc fixes:
+arrow/player hitboxes
+	arrows currently stop too quickly when hitting players, causing them to float on the edge of the hitbox instead of penetrating more deeply
