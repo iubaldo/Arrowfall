@@ -1,0 +1,237 @@
+[gd_scene load_steps=26 format=2]
+
+[ext_resource path="res://Sprites/hooded figure cut/blueHoodTileset.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/PlayerStateMachine.gd" type="Script" id=2]
+[ext_resource path="res://Fonts/Spectral-Regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Animations/Player/PlayerIdle.tres" type="Animation" id=4]
+[ext_resource path="res://Animations/Player/PlayerWalk.tres" type="Animation" id=5]
+[ext_resource path="res://Animations/Player/PlayerFall.tres" type="Animation" id=6]
+[ext_resource path="res://Animations/Player/PlayerJump.tres" type="Animation" id=7]
+[ext_resource path="res://Animations/Player/PlayerHurt.tres" type="Animation" id=8]
+[ext_resource path="res://Scripts/PlayerController.gd" type="Script" id=9]
+[ext_resource path="res://Scenes/Bow.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/Shield.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scripts/Player.gd" type="Script" id=12]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 5.03585, 8.93967 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 3 )
+
+[sub_resource type="AnimationNodeAnimation" id=4]
+animation = "PlayerFall"
+
+[sub_resource type="AnimationNodeAnimation" id=5]
+animation = "PlayerIdle"
+
+[sub_resource type="AnimationNodeTransition" id=6]
+input_count = 2
+input_0/name = "falling"
+input_0/auto_advance = false
+input_1/name = "jumping"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeTransition" id=7]
+input_count = 2
+input_0/name = "ground"
+input_0/auto_advance = false
+input_1/name = "air"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "PlayerJump"
+
+[sub_resource type="AnimationNodeTimeScale" id=9]
+
+[sub_resource type="AnimationNodeTransition" id=10]
+input_count = 2
+input_0/name = "idle"
+input_0/auto_advance = false
+input_1/name = "walking"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+animation = "PlayerWalk"
+
+[sub_resource type="AnimationNodeBlendTree" id=12]
+graph_offset = Vector2( -66, 121 )
+nodes/Fall/node = SubResource( 4 )
+nodes/Fall/position = Vector2( 500, 340 )
+nodes/Idle/node = SubResource( 5 )
+nodes/Idle/position = Vector2( 200, 160 )
+nodes/InAir/node = SubResource( 6 )
+nodes/InAir/position = Vector2( 740, 420 )
+nodes/InAirState/node = SubResource( 7 )
+nodes/InAirState/position = Vector2( 940, 140 )
+nodes/Jump/node = SubResource( 8 )
+nodes/Jump/position = Vector2( 500, 480 )
+nodes/MoveTime/node = SubResource( 9 )
+nodes/MoveTime/position = Vector2( 200, 300 )
+nodes/Movement/node = SubResource( 10 )
+nodes/Movement/position = Vector2( 500, 140 )
+nodes/Walk/node = SubResource( 11 )
+nodes/Walk/position = Vector2( -20, 300 )
+nodes/output/position = Vector2( 1180, 140 )
+node_connections = [ "output", 0, "InAirState", "MoveTime", 0, "Walk", "Movement", 0, "Idle", "Movement", 1, "MoveTime", "InAirState", 0, "Movement", "InAirState", 1, "InAir", "InAir", 0, "Fall", "InAir", 1, "Jump" ]
+
+[sub_resource type="RectangleShape2D" id=13]
+
+[node name="Player" type="KinematicBody2D"]
+z_index = 1
+collision_mask = 78
+script = ExtResource( 9 )
+
+[node name="Player" type="Node" parent="."]
+script = ExtResource( 12 )
+
+[node name="Bow" parent="." instance=ExtResource( 10 )]
+collision_layer = 0
+collision_mask = 0
+
+[node name="Shield" parent="." instance=ExtResource( 11 )]
+
+[node name="PlayerFSM" type="Node2D" parent="."]
+script = ExtResource( 2 )
+
+[node name="PlayerSprite" type="Sprite" parent="."]
+scale = Vector2( 3, 3 )
+texture = ExtResource( 1 )
+hframes = 17
+frame = 12
+
+[node name="PlayerHitbox" type="CollisionShape2D" parent="."]
+position = Vector2( -1.31102, 1.71762 )
+scale = Vector2( 2, 2.5 )
+shape = SubResource( 1 )
+
+[node name="Timers" type="Node2D" parent="."]
+
+[node name="ArrowCDTimer" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="WallSlideCDTimer" type="Timer" parent="Timers"]
+wait_time = 0.2
+one_shot = true
+
+[node name="WallStickTimer" type="Timer" parent="Timers"]
+wait_time = 0.2
+one_shot = true
+
+[node name="JumpForgivenessTimer" type="Timer" parent="Timers"]
+wait_time = 0.1
+one_shot = true
+
+[node name="CoyoteTimer" type="Timer" parent="Timers"]
+wait_time = 0.1
+one_shot = true
+
+[node name="RespawnStasisTimer" type="Timer" parent="Timers"]
+wait_time = 3.0
+one_shot = true
+
+[node name="StateLabel" type="Label" parent="."]
+visible = false
+margin_left = -20.25
+margin_top = -63.5
+margin_right = 19.75
+margin_bottom = -38.5
+custom_fonts/font = SubResource( 2 )
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ShootPowerLabel" type="Label" parent="."]
+margin_left = -20.3318
+margin_top = -46.9045
+margin_right = 19.6682
+margin_bottom = -21.9045
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/PlayerFall = ExtResource( 6 )
+anims/PlayerHurt = ExtResource( 8 )
+anims/PlayerIdle = ExtResource( 4 )
+anims/PlayerJump = ExtResource( 7 )
+anims/PlayerWalk = ExtResource( 5 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 12 )
+anim_player = NodePath("../AnimationPlayer")
+parameters/InAir/current = 1
+parameters/InAirState/current = 0
+parameters/MoveTime/scale = 1.0
+parameters/Movement/current = 0
+
+[node name="Groundcasts" type="Node2D" parent="."]
+
+[node name="RightGroundcast" type="RayCast2D" parent="Groundcasts"]
+position = Vector2( 8, 20 )
+enabled = true
+cast_to = Vector2( 0, 5 )
+collision_mask = 66
+collide_with_areas = true
+
+[node name="LeftGroundcast" type="RayCast2D" parent="Groundcasts"]
+position = Vector2( -8, 20 )
+enabled = true
+cast_to = Vector2( 0, 5 )
+collision_mask = 2
+collide_with_areas = true
+
+[node name="Wallcasts" type="Node2D" parent="."]
+
+[node name="RightWallcasts" type="Node2D" parent="Wallcasts"]
+
+[node name="RightWallRaycastTop" type="RayCast2D" parent="Wallcasts/RightWallcasts"]
+position = Vector2( 0, -12 )
+enabled = true
+cast_to = Vector2( 13, 0 )
+collision_mask = 2
+collide_with_areas = true
+
+[node name="RightWallRaycastBot" type="RayCast2D" parent="Wallcasts/RightWallcasts"]
+position = Vector2( 0, 12 )
+enabled = true
+cast_to = Vector2( 13, 0 )
+collision_mask = 2
+collide_with_areas = true
+
+[node name="LeftWallcasts" type="Node2D" parent="Wallcasts"]
+
+[node name="LeftWallRaycastTop" type="RayCast2D" parent="Wallcasts/LeftWallcasts"]
+position = Vector2( 0, -12 )
+enabled = true
+cast_to = Vector2( -13, 0 )
+collision_mask = 2
+collide_with_areas = true
+
+[node name="LeftWallRaycastBot" type="RayCast2D" parent="Wallcasts/LeftWallcasts"]
+position = Vector2( 0, 12 )
+enabled = true
+cast_to = Vector2( -13, 0 )
+collision_mask = 2
+collide_with_areas = true
+
+[node name="PlatformDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformDetector"]
+position = Vector2( -1.189, 25 )
+scale = Vector2( 1.25, 0.25 )
+shape = SubResource( 13 )
+
+[connection signal="timeout" from="Timers/RespawnStasisTimer" to="." method="_on_RespawnStasisTimer_timeout"]
+[connection signal="body_exited" from="PlatformDetector" to="." method="_on_PlatformDetector_body_exited"]
