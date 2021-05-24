@@ -72,6 +72,7 @@ func _process(delta):
 		if (!keyboardAvailable):
 			remove_character(keyboardPlayer)
 	if Input.is_action_just_pressed("debug_change_color_keyboard"):
+		
 		if (!keyboardAvailable):
 			change_color(keyboardPlayer)
 			
@@ -339,51 +340,57 @@ func remove_player(id: int):
 	
 	
 func change_color(player):
-	
+	var existingCharacter = false
 	for character in controllerCharacters:
-		if character == player || keyboardPlayer == player:
-			#Valid player
-			var charClass = player.charClass
-			var initialColor = player.color
-			var colorIndex
-			match initialColor:
-				"blue":
-					colorIndex = 0
-				"red":
-					colorIndex = 1
-				"green":
-					colorIndex = 2
-				"orange":
-					colorIndex = 3
-			var i = colorIndex + 1
+		if character == player:
+			existingCharacter = true
+	if player == keyboardPlayer:
+		existingCharacter = true
+		
+	if existingCharacter:
+		#Valid player
+		print("x")
+		var charClass = player.charClass
+		var initialColor = player.color
+		var colorIndex
+		match initialColor:
+			"blue":
+				colorIndex = 0
+			"red":
+				colorIndex = 1
+			"green":
+				colorIndex = 2
+			"orange":
+				colorIndex = 3
+		var i = colorIndex + 1
+		if (i == 4):
+			i = 0
+		while (i != colorIndex):
+			if availableColors[charClass][i] == 1:
+				availableColors[charClass][colorIndex] = 1
+				availableColors[charClass][i] = 0					
+				match i:
+					0:
+						player.change_color("blue")
+					1:
+						player.change_color("red")
+					2:
+						player.change_color("green")						
+					3:	
+						player.change_color("orange")
+				match player.number:
+					1:
+						P1Head.set_texture(headSprites[player.charClass][i])
+					2:
+						P2Head.set_texture(headSprites[player.charClass][i])
+					3:
+						P3Head.set_texture(headSprites[player.charClass][i])
+					4:			
+						P4Head.set_texture(headSprites[player.charClass][i])
+				return	
+			i += 1
 			if (i == 4):
 				i = 0
-			while (i != colorIndex):
-				if availableColors[charClass][i] == 1:
-					availableColors[charClass][colorIndex] = 1
-					availableColors[charClass][i] = 0					
-					match i:
-						0:
-							player.change_color("blue")
-						1:
-							player.change_color("red")
-						2:
-							player.change_color("green")						
-						3:	
-							player.change_color("orange")
-					match player.number:
-						1:
-							P1Head.set_texture(headSprites[player.charClass][i])
-						2:
-							P2Head.set_texture(headSprites[player.charClass][i])
-						3:
-							P3Head.set_texture(headSprites[player.charClass][i])
-						4:			
-							P4Head.set_texture(headSprites[player.charClass][i])
-					return	
-				i += 1
-				if (i == 4):
-					i = 0
-			#Return if there are no available colors for this player's class.					
-			return											
+		#Return if there are no available colors for this player's class.					
+		return											
 	
