@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/P1BoxHead.png-6367bb4a60e512a7017e91b369b14450.stex"
+path="res://.import/Vacant.png-83273df73ee4c055890f01aa9c12426d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/HUD Elements/PlayerSilhouttes/P1BoxHead.png"
-dest_files=[ "res://.import/P1BoxHead.png-6367bb4a60e512a7017e91b369b14450.stex" ]
+source_file="res://Sprites/HUD Elements/PlayerBoxes/Vacant.png"
+dest_files=[ "res://.import/Vacant.png-83273df73ee4c055890f01aa9c12426d.stex" ]
 
 [params]
 

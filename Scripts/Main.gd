@@ -12,7 +12,9 @@ func _ready():
 	Input.connect("joy_connection_changed",self,"_joy_connection_changed")
 	add_child(lobby.instance())
 	for controller in Input.get_connected_joypads():
-		get_node("Lobby").get_node("LobbyHandler").add_player(controller)	
+		if (Input.get_joy_guid(controller) != "__XINPUT_DEVICE__"):
+			print(Input.get_joy_guid(controller))
+			get_node("Lobby").get_node("LobbyHandler").add_player(controller)	
 
 func _process(delta):
 	if currScene == "Lobby":
@@ -27,8 +29,9 @@ func _process(delta):
 			
 func _joy_connection_changed(id, connected):
 	if (connected):
-		print("Adding device id " + str(id))		
-		get_child(0).get_node("LobbyHandler").add_player(id)
+		if (Input.get_joy_guid(id) != "__X_INPUT_DEVICE__"):
+			print("Adding device id " + str(id))		
+			get_child(0).get_node("LobbyHandler").add_player(id)
 	if (!connected):
 		print("Removing device id " + str(id))
 		get_child(0).get_node("LobbyHandler").remove_player(id)

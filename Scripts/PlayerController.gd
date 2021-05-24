@@ -17,6 +17,12 @@ onready var groundcasts = get_node("Groundcasts")
 onready var bow : Area2D = get_node("Bow")
 onready var shield : Node2D = get_node("Shield")
 onready var animTree = get_node("AnimationTree")
+
+var blueSprite
+var redSprite
+var greenSprite
+var orangeSprite
+
 # onready var offScreenMarker = get_parent().get_node("OffScreenMarker")
 const ARROW = preload("res://Scenes/Arrow.tscn")
 
@@ -61,7 +67,9 @@ var minShieldPower = 5
 var shieldDecayRate = 12.5
 var shieldRegenRate = 5
 
-var color = ""
+var color = "blue"
+var charClass = ""
+var number = -1
 
 export var playerID := 0
 export var usingController = false
@@ -311,3 +319,25 @@ func _on_RespawnStasisTimer_timeout():
 
 func _on_PlatformDetector_body_exited(body):
 	set_collision_mask_bit(DROP_THRU_BIT, true)
+
+
+func change_class(newCharClass):
+	charClass = newCharClass
+	match newCharClass:
+		"hood":
+			blueSprite = load("res://Sprites/hooded figure cut/blueHoodTileset.png")
+			redSprite = load("res://Sprites/hooded figure cut/redHoodTileset.png")
+			greenSprite = load("res://Sprites/hooded figure cut/greenHoodTileset.png")
+			orangeSprite = load("res://Sprites/hooded figure cut/orangeHoodTileset.png")
+
+func change_color(newColor):
+	color = newColor
+	match newColor:
+		"blue":
+			get_node("PlayerSprite").set_texture(blueSprite)
+		"red":
+			get_node("PlayerSprite").set_texture(redSprite)
+		"green":
+			get_node("PlayerSprite").set_texture(greenSprite)
+		"orange":
+			get_node("PlayerSprite").set_texture(orangeSprite)

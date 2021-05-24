@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/P2.png-036ef734e31c2d1c2f343cb638a0b5b0.stex"
+path="res://.import/P2Box.png-022dc281824d77cc6c992ecadcbbd132.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/HUD Elements/PlayerSilhouttes/P2.png"
-dest_files=[ "res://.import/P2.png-036ef734e31c2d1c2f343cb638a0b5b0.stex" ]
+source_file="res://Sprites/HUD Elements/PlayerBoxes/P2Box.png"
+dest_files=[ "res://.import/P2Box.png-022dc281824d77cc6c992ecadcbbd132.stex" ]
 
 [params]
 

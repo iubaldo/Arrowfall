@@ -31,6 +31,8 @@ func get_input():
 		emit_signal("keyboard_command", 'keyboard_item')
 	if Input.is_action_just_pressed("keyboard_pause"):
 		emit_signal("keyboard_command", 'keyboard_pause')
+	if Input.is_action_just_pressed("debug_change_color_keyboard"):
+		emit_signal("keyboard_command", 'debug_change_color_keyboard')
 		
 	
 	# Controller 0 Inputs
@@ -64,6 +66,8 @@ func get_input():
 		emit_signal("controller_command", 'controller_pause_0', 0)
 	if Input.is_action_just_pressed("controller_join_game_0"):
 		emit_signal("controller_command", 'controller_join_game_0', 0)		
+	if Input.is_action_just_pressed("debug_change_color_0"):
+		emit_signal("controller_command", 'debug_change_color_0', 0)		
 	
 	
 	# Controller 1 Inputs
@@ -96,7 +100,9 @@ func get_input():
 	if Input.is_action_just_pressed("controller_pause_1"):
 		emit_signal("controller_command", 'controller_pause_1', 1)
 	if Input.is_action_just_pressed("controller_join_game_1"):
-		emit_signal("controller_command", 'controller_join_game_1', 1)			
+		emit_signal("controller_command", 'controller_join_game_1', 1)		
+	if Input.is_action_just_pressed("debug_change_color_1"):
+		emit_signal("controller_command", 'debug_change_color_1', 1)			
 		
 	
 	# Controller 2 Inputs
@@ -129,7 +135,9 @@ func get_input():
 	if Input.is_action_just_pressed("controller_pause_2"):
 		emit_signal("controller_command", 'controller_pause_2', 2)
 	if Input.is_action_just_pressed("controller_join_game_2"):
-		emit_signal("controller_command", 'controller_join_game_2', 2)			
+		emit_signal("controller_command", 'controller_join_game_2', 2)		
+	if Input.is_action_just_pressed("debug_change_color_2"):
+		emit_signal("controller_command", 'debug_change_color_2', 2)			
 		
 		
 	# Controller 3 Inputs
@@ -163,6 +171,8 @@ func get_input():
 		emit_signal("controller_command", 'controller_pause_3', 3)
 	if Input.is_action_just_pressed("controller_join_game_3"):
 		emit_signal("controller_command", 'controller_join_game_3', 3)	
+	if Input.is_action_just_pressed("debug_change_color_3"):
+		emit_signal("controller_command", 'debug_change_color_3', 3)		
 		
 		
 	# Controller 4 Inputs
@@ -196,6 +206,8 @@ func get_input():
 		emit_signal("controller_command", 'controller_pause_4', 4)
 	if Input.is_action_just_pressed("controller_join_game_4"):
 		emit_signal("controller_command", 'controller_join_game_4', 4)	
+	if Input.is_action_just_pressed("debug_change_color_4"):
+		emit_signal("controller_command", 'debug_change_color_4', 4)		
 		
 	# Controller 5 Inputs
 	if Input.get_action_strength("controller_move_up_5") > 0.5:
@@ -228,6 +240,8 @@ func get_input():
 		emit_signal("controller_command", 'controller_pause_5', 5)
 	if Input.is_action_just_pressed("controller_join_game_5"):
 		emit_signal("controller_command", 'controller_join_game_5', 5)	
+	if Input.is_action_just_pressed("debug_change_color_5"):
+		emit_signal("controller_command", 'debug_change_color_5', 5)		
 				
 
 	# Controller 6 Inputs
@@ -261,6 +275,8 @@ func get_input():
 		emit_signal("controller_command", 'controller_pause_6', 6)
 	if Input.is_action_just_pressed("controller_join_game_6"):
 		emit_signal("controller_command", 'controller_join_game_6', 6)	
+	if Input.is_action_just_pressed("debug_change_color_6"):
+		emit_signal("controller_command", 'debug_change_color_6', 6)		
 		
 
 	# Controller 7 Inputs
@@ -294,6 +310,8 @@ func get_input():
 		emit_signal("controller_command", 'controller_pause_7', 7)
 	if Input.is_action_just_pressed("controller_join_game_7"):
 		emit_signal("controller_command", 'controller_join_game_7', 7)	
+	if Input.is_action_just_pressed("debug_change_color_7"):
+		emit_signal("controller_command", 'debug_change_color_7', 7)
 
 func _input(event : InputEvent) -> void:
 	if event is InputEventKey:

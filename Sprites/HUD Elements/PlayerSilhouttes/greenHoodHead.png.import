@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/P3Box.png-7e949cd88c9a4cf834777df6b81c9bfe.stex"
+path="res://.import/greenHoodHead.png-139154b0cbe235f3fedf2f89c5c6b2f9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/HUD Elements/PlayerSilhouttes/P3Box.png"
-dest_files=[ "res://.import/P3Box.png-7e949cd88c9a4cf834777df6b81c9bfe.stex" ]
+source_file="res://Sprites/HUD Elements/PlayerSilhouttes/greenHoodHead.png"
+dest_files=[ "res://.import/greenHoodHead.png-139154b0cbe235f3fedf2f89c5c6b2f9.stex" ]
 
 [params]
 
