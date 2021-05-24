@@ -17,7 +17,7 @@ func _process(delta):
 	
 	var input = parent.handleMoveInput()
 	if parent.pressJump:
-		if input.y > 0.4:
+		if (parent.usingController && input.y > 0.4) || (!parent.usingController && input.y < 0):
 			parent.set_collision_mask_bit(parent.DROP_THRU_BIT, false)
 		else:
 			parent.jumpForgivenessTimer.start()

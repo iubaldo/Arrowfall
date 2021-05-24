@@ -124,6 +124,7 @@ other potential ideas:
 			switch to rapid-fire shots that deal less knockback 
 			has a gun with no projectile drop, but needs to perform a perfect reload (like eltnum from uni)
 			sword that can parry projectiles with a short cooldown
+	more uses of specific items
 			
 	more gamemodes
 		duel: tower is replaced with set of floating platforms, more like a traditional smash game
