@@ -29,7 +29,7 @@ func _process(delta):
 			
 func _joy_connection_changed(id, connected):
 	if (connected):
-		if (Input.get_joy_guid(id) != "__X_INPUT_DEVICE__"):
+		if (Input.get_joy_guid(id) != "__XINPUT_DEVICE__"):
 			print("Adding device id " + str(id))		
 			get_child(0).get_node("LobbyHandler").add_player(id)
 	if (!connected):
