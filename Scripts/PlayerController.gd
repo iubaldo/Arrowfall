@@ -27,12 +27,12 @@ var orangeSprite
 const ARROW = preload("res://Scenes/Arrow.tscn")
 
 const ACCELERATION = 800
-const MAX_SPEED = 6 * Globals.UNIT_SIZE
+const MAX_SPEED = 6 * 32
 const JUMPFORCE = -600
 const MAX_JUMPFORCE = -600
 const MIN_JUMPFORCE = -300
-const MAX_JUMP_HEIGHT = 3.25 * Globals.UNIT_SIZE
-const MIN_JUMP_HEIGHT = 1 * Globals.UNIT_SIZE
+const MAX_JUMP_HEIGHT = 3.25 * 32
+const MIN_JUMP_HEIGHT = 1 * 32
 const JUMP_DURATION = 0.5 # time to reach peak of jump
 const GRAVITY = 2 * MAX_JUMP_HEIGHT / pow(JUMP_DURATION, 2) #orignal value: 1700
 const MAX_JUMP_VELOCITY = -sqrt(2 * GRAVITY * MAX_JUMP_HEIGHT)
