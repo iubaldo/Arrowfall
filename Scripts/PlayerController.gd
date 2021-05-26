@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+# preloads
 onready var player = get_node("Player")
 onready var playerSprite : Sprite = get_node("PlayerSprite")
 onready var playerHitbox = get_node("PlayerHitbox")
@@ -18,6 +19,7 @@ onready var bow : Area2D = get_node("Bow")
 onready var shield : Node2D = get_node("Shield")
 onready var animTree = get_node("AnimationTree")
 
+# sprites
 var blueSprite
 var redSprite
 var greenSprite
@@ -26,46 +28,48 @@ var orangeSprite
 # onready var offScreenMarker = get_parent().get_node("OffScreenMarker")
 const ARROW = preload("res://Scenes/Arrow.tscn")
 
-const ACCELERATION = 800
+# movement variables
+var velocity = Vector2()
+const ACCELERATION = 25 * 32
 const MAX_SPEED = 6 * 32
-const JUMPFORCE = -600
-const MAX_JUMPFORCE = -600
-const MIN_JUMPFORCE = -300
-const MAX_JUMP_HEIGHT = 3.25 * 32
+const MAX_JUMP_HEIGHT = 3 * 32
 const MIN_JUMP_HEIGHT = 1 * 32
-const JUMP_DURATION = 0.5 # time to reach peak of jump
-const GRAVITY = 2 * MAX_JUMP_HEIGHT / pow(JUMP_DURATION, 2) #orignal value: 1700
+const JUMP_DURATION = 0.3 # time to reach peak of jump
+const GRAVITY = 2 * MAX_JUMP_HEIGHT / pow(JUMP_DURATION, 2) # orignal value: 1700
 const MAX_JUMP_VELOCITY = -sqrt(2 * GRAVITY * MAX_JUMP_HEIGHT)
 const MIN_JUMP_VELOCITY = -sqrt(2 * GRAVITY * MIN_JUMP_HEIGHT)
 const FRICTION = 0.25
 const AIR_FRICTION = 0.02
-const WALL_JUMP_VELOCITY = Vector2(225, -550)
+const WALL_JUMP_VELOCITY = Vector2(250, -600)
 const DROP_THRU_BIT = 6 # 7th collision layer
+var snapVector = Vector2.DOWN * 32 # used to correct movement on slopes
 
-
-var velocity = Vector2()
-var mousePos = Vector2()
+# state variables
 var isJumping = false
 var doubleJump = true
 var wallDirection = 1
 var useGravity = true
 var stasis = false
 var invincible = false
-var snapVector = Vector2.DOWN * 32
 var isGrounded = false
 
+# shooting variables
+var mousePos = Vector2()
 var canShoot = true
 var shootPower = 0
 var maxPower = 1000
-var arrowType = "basic"
+var arrowType = "basic" # change to enum later?
 var aimVector = Vector2()
 var shootVector = Vector2()
 
+# button press variables
 var pressFire = false
 var releaseFire = false
 var pressShield = false
 var pressJump = false
+var releasedJump = false
 
+# shielding variables
 var shieldActive = false
 var maxShieldPower = 30
 var shieldPower = 0
@@ -73,10 +77,12 @@ var minShieldPower = 5
 var shieldDecayRate = 12.5
 var shieldRegenRate = 5
 
+# character variables
 var color = "blue"
 var charClass = ""
 var number = -1
 
+# controller variables
 export var playerID := 0
 export var usingController = false
 var deadzone0 = 0.3
@@ -85,8 +91,6 @@ var deadzone0 = 0.3
 func _ready():
 	set_physics_process(true)
 	$AnimationTree.active = true
-	
-	#gravity = 2 * MAX_JUMP_HEIGHT / pow(jump_durato)
 	
 	
 func setControls(ID: int, controller: bool):
@@ -127,11 +131,13 @@ func _process(delta):
 		releaseFire = true if Input.is_action_just_released("keyboard_fire") else false
 		pressShield = true if Input.is_action_pressed("keyboard_shield") else false
 		pressJump = true if Input.is_action_just_pressed("keyboard_jump") else false
+		releasedJump = true if !Input.is_action_pressed("keyboard_jump") else false
 	else:
 		pressFire = true if Input.is_action_pressed("controller_fire_" + var2str(playerID)) else false
 		releaseFire = true if Input.is_action_just_released("controller_fire_" + var2str(playerID)) else false
 		pressShield = true if Input.is_action_pressed("controller_shield_" + var2str(playerID)) else false
 		pressJump = true if Input.is_action_just_pressed("controller_jump_" + var2str(playerID)) else false
+		releasedJump = true if !Input.is_action_pressed("controller_jump_" + var2str(playerID)) else false
 	
 	if pressFire:
 		if shootPower < maxPower:
@@ -195,7 +201,11 @@ func _input(event):
 	if event is InputEventKey && (stasis || invincible):
 		stasis = false
 		invincible = false
-		
+	
+	if !usingController && event.is_action_released("keyboard_jump") && velocity.y < MIN_JUMP_VELOCITY:
+		velocity.y = MIN_JUMP_VELOCITY
+	elif usingController && event.is_action_released("controller_jump_" + var2str(playerID)) && velocity.y < MIN_JUMP_VELOCITY:
+		velocity.y = MIN_JUMP_VELOCITY
 		
 func onRespawn():
 	player.stocks -= 1
@@ -260,13 +270,11 @@ func applyMovement(inputVector, delta):
 
 		velocity.y = move_and_slide_with_snap(velocity, snapVector, Vector2.UP, true, 4, deg2rad(60)).y
 		
-		# if !pressJump && velocity.y < -500:
-		# 	velocity.y = -500
-		
 		
 func jump():
-	velocity.y = MAX_JUMPFORCE
+	velocity.y = MAX_JUMP_VELOCITY
 	isJumping = true
+	
 	
 func wallJump():
 	var wallJumpVelocity = WALL_JUMP_VELOCITY
