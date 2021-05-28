@@ -14,6 +14,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1.25989
 margin_right = 1.25989
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -35,6 +36,7 @@ margin_left = 325.0
 margin_right = 722.0
 margin_bottom = 771.0
 rect_scale = Vector2( 0.6, 0.6 )
+mouse_filter = 2
 custom_constants/margin_top = 400
 __meta__ = {
 "_edit_use_anchors_": false
@@ -44,6 +46,7 @@ __meta__ = {
 margin_top = 400.0
 margin_right = 397.0
 margin_bottom = 771.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 40
@@ -55,6 +58,7 @@ __meta__ = {
 [node name="Play" type="TextureButton" parent="MarginContainer/Options"]
 margin_right = 397.0
 margin_bottom = 97.0
+keep_pressed_outside = true
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 7 )
 texture_hover = ExtResource( 3 )
@@ -79,6 +83,7 @@ __meta__ = {
 margin_top = 137.0
 margin_right = 397.0
 margin_bottom = 234.0
+keep_pressed_outside = true
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 7 )
 texture_hover = ExtResource( 3 )
@@ -103,6 +108,7 @@ __meta__ = {
 margin_top = 274.0
 margin_right = 397.0
 margin_bottom = 371.0
+keep_pressed_outside = true
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 7 )
 texture_hover = ExtResource( 3 )
@@ -130,6 +136,7 @@ margin_right = 280.22
 margin_bottom = 143.461
 rect_rotation = -32.8
 rect_scale = Vector2( 7.20563, 6.5229 )
+mouse_filter = 2
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false

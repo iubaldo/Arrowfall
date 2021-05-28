@@ -63,7 +63,6 @@ func _ready():
 	
 	
 func _process(delta):
-	print(get_parent().get_path())
 	keyboardPlayer = ControllerHandler.keyboardPlayer
 	if Input.is_action_pressed("debug_startGame"):
 		Main.change_screen("Battle")	
