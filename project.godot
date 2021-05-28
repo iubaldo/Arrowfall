@@ -33,7 +33,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Main="*res://Scripts/Main.gd"
-Global="*res://Scripts/Globals.gd"
+ControllerHandler="*res://Scripts/ControllerHandler.gd"
 
 [display]
 
@@ -707,82 +707,82 @@ controller_pause_7={
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":7,"button_index":11,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_join_game_0={
+controller_accept_0={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_join_game_1={
+controller_accept_1={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":1,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_join_game_2={
+controller_accept_2={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":2,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_join_game_3={
+controller_accept_3={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":3,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_join_game_4={
+controller_accept_4={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":4,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_join_game_5={
+controller_accept_5={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":5,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_join_game_6={
+controller_accept_6={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":6,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_join_game_7={
+controller_accept_7={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":7,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_leave_game_0={
+controller_cancel_0={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_leave_game_1={
+controller_cancel_1={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":1,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_leave_game_2={
+controller_cancel_2={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":2,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_leave_game_3={
+controller_cancel_3={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":3,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_leave_game_4={
+controller_cancel_4={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":4,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_leave_game_5={
+controller_cancel_5={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":5,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_leave_game_6={
+controller_cancel_6={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":6,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-controller_leave_game_7={
+controller_cancel_7={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":7,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
  ]
