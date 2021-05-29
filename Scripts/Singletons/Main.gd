@@ -39,19 +39,20 @@ func change_screen(newScreenType):
 			next_screen = mainMenu.instance()
 		"Lobby":
 			next_screen = lobby.instance()
+			
 		"Battle":
 			next_screen = battle.instance()
 	match currScreen:
 		"":
 			pass
 		"Main Menu":
-			get_node("Main Menu").queue_free()
+			remove_child(get_node("Main Menu"))
 		"Lobby":
-			get_node("Lobby").queue_free()
+			remove_child(get_node("Lobby"))
 			if newScreenType == "Battle":
 				pass
 		"Battle":
-			get_node("Main Scene").queue_free()
+			remove_child(get_node("Battle"))
 
 	currScreen = newScreenType
 	add_child(next_screen)

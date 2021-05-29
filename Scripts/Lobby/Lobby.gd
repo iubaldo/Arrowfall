@@ -33,13 +33,12 @@ onready var P3Controller = get_parent().get_node("./CanvasLayer/Ready-Select UI/
 onready var P4Controller = get_parent().get_node("./CanvasLayer/Ready-Select UI/PlayerControllers/P2Controller")
 onready var VacantController = get_parent().get_node("./CanvasLayer/Ready-Select UI/PlayerControllers/VacantController")
 
+onready var BackButton = get_parent().get_node("./Environment/BackButton")
 
 var num_players = 0
 var num_characters = 0
 
-var controllerPlayers
 var characters = []
-var keyboardPlayer
 
 var allCharacters = [null, null, null, null]
 
@@ -54,36 +53,53 @@ var headSprites
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	controllerPlayers = ControllerHandler.controllerPlayers
-	keyboardPlayer = ControllerHandler.keyboardPlayer
+
 	VacantBox.visible = true
 	VacantController.visible = true
 	VacantHead.visible = true
 	headSprites = {"hood": [blueHoodHead, redHoodHead, greenHoodHead, orangeHoodHead]}
+
+	BackButton.connect("button_down", self, "_backButton")	
+	BackButton.connect("button_up", self, "_backCancel")
+	
+var timeToaddDestination : float
+
+func _backButton():
+	BackButton.bePressed(8)
+
+func _backCancel():
+	BackButton.beReleased(8)
 	
 	
+
 func _process(delta):
-	keyboardPlayer = ControllerHandler.keyboardPlayer
 	if Input.is_action_pressed("debug_startGame"):
 		Main.change_screen("Battle")	
 	if Input.is_action_just_pressed("keyboard_jump"):
-		add_character(keyboardPlayer)
+		add_character(ControllerHandler.keyboardPlayer)
 	if Input.is_action_just_pressed("debug_removePlayerKeyboard"):
-		remove_character(keyboardPlayer)
+		remove_character(ControllerHandler.keyboardPlayer)
 	if Input.is_action_just_pressed("debug_change_color_keyboard"):
-		change_color(keyboardPlayer)
+		for charac in allCharacters:
+			if charac == ControllerHandler.keyboardPlayer:
+				change_color(ControllerHandler.keyboardPlayer)
+				break
+	if Input.is_action_just_pressed("ui_cancel"):
+		BackButton.bePressed(9)
+	if Input.is_action_just_released("ui_cancel"):
+		BackButton.beReleased(9)
 	for i in range(0,7):
-		if (controllerPlayers[i] != null):
+		if (ControllerHandler.controllerPlayers[i] != null):
 			if Input.is_action_just_pressed("controller_accept_" + str(i)):
-				add_character(controllerPlayers[i])
+				add_character(ControllerHandler.controllerPlayers[i])
 			if Input.is_action_just_pressed("controller_cancel_" + str(i)):
-				remove_character(controllerPlayers[i])
+				BackButton.bePressed(i)
+				remove_character(ControllerHandler.controllerPlayers[i])
+			if Input.is_action_just_released("controller_cancel_" + str(i)):
+				BackButton.beReleased(i)
 			if Input.is_action_just_pressed("debug_change_color_" + str(i)):
-				change_color(controllerPlayers[i])																							
+				change_color(ControllerHandler.controllerPlayers[i])																							
 									
-		
-	
-	
 func add_character(player):		
 	print("adding character")
 	for character in characters:
@@ -93,7 +109,7 @@ func add_character(player):
 		return
 	get_parent().add_child(player)
 	var charClass = "hood"
-	player.change_class(charClass)
+	player.change_class(charClass)   
 	var colorIndex
 
 	for i in range(0,3):
@@ -122,7 +138,7 @@ func add_character(player):
 			P1Head.visible = true
 			P1Box.visible = true
 			P1Controller.visible = true
-			if player == keyboardPlayer:
+			if player == ControllerHandler.keyboardPlayer:
 				P1Controller.set_texture(keyboardSprite)
 			else:
 				P1Controller.set_texture(controllerSprite)
@@ -139,7 +155,7 @@ func add_character(player):
 			P2Head.visible = true
 			P2Box.visible = true
 			P2Controller.visible = true
-			if player == keyboardPlayer:
+			if player == ControllerHandler.keyboardPlayer:
 				P2Controller.set_texture(keyboardSprite)
 			else:
 				P2Controller.set_texture(controllerSprite)
@@ -152,7 +168,7 @@ func add_character(player):
 			P3Head.visible = true
 			P3Box.visible = true
 			P3Controller.visible = true
-			if player == keyboardPlayer:
+			if player == ControllerHandler.keyboardPlayer:
 				P3Controller.set_texture(keyboardSprite)
 			else:
 				P3Controller.set_texture(controllerSprite)
@@ -165,7 +181,7 @@ func add_character(player):
 			P4Head.visible = true			
 			P4Box.visible = true
 			P4Controller.visible = true
-			if player == keyboardPlayer:
+			if player == ControllerHandler.keyboardPlayer:
 				P4Controller.set_texture(keyboardSprite)
 			else:
 				P4Controller.set_texture(controllerSprite)
