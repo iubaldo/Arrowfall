@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Scripts/Arrow.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/ArrowProjectile.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/bow and arrow cut/tile005.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/Spectral-Regular.ttf" type="DynamicFontData" id=3]
 

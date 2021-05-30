@@ -1,4 +1,5 @@
 extends Area2D
+class_name ArrowProjectile
 
 var mass = 30.0
 var velocity = Vector2(0, 0)
@@ -8,6 +9,8 @@ var stuck = false
 var destruct = false
 var parent
 var active = true
+
+# shield interaction
 var ignoreShield = false
 var currBounce = 0
 var maxBounce = 2

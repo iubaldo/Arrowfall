@@ -3,14 +3,15 @@ extends Node2D
 # onready var tileMap : TileMap = get_parent().get_parent().get_node("ForegroundTileMap")
 onready var bowSprite : Sprite = get_node("BowSprite")
 
+# arrow textures
 onready var basicArrow : Texture = load("res://Sprites/bow and arrow cut/tile005.png")
 
 var mousePos
 var shootPower = 0
 var phase = 0
 
-enum arrowType { BASIC }
-var arrow = arrowType.BASIC
+enum arrowType { BASIC, SPLIT, FEATHER, HEAVY } # move this to a globals class?
+var currArrow = arrowType.BASIC
 
 func _process(delta):
 	if !get_parent().usingController:
@@ -38,6 +39,7 @@ func _process(delta):
 	if phase != 0:
 		$ArrowSprite.visible = true
 		
+		# set arrow sprite position based on draw phase
 		match phase:
 			1:
 				$ArrowSprite.position =  $DrawArrowPos1.position + Vector2(0, 0.6)
@@ -46,7 +48,8 @@ func _process(delta):
 			3:
 				$ArrowSprite.position =  $DrawArrowPos3.position + Vector2(0, 0.6)
 		
-		match arrow:
+		# set arrow sprite based on arrowType
+		match currArrow:
 			arrowType.BASIC:
 				$ArrowSprite.texture = basicArrow
 			_:
@@ -60,11 +63,11 @@ func setShootPower(power : float):
 	shootPower = power
 	
 func setArrowType(type : String):
-	match type:
+	match type.to_lower():
 		"basic":
-			arrow = arrowType.BASIC
+			currArrow = arrowType.BASIC
 		_:
-			arrow = arrowType.BASIC
+			currArrow = arrowType.BASIC
 			
 
 func _on_Bow_body_entered(body):
