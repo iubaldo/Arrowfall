@@ -1,8 +1,8 @@
 extends Node2D
 
-const ARROW = preload("res://Scenes/Arrow.tscn")
+const ARROW = preload("res://Scenes/Arrows/BasicArrowProjectile.tscn")
 onready var cooldownTimer = get_node("ShootCooldownTimer")
-onready var player = get_parent().get_node("Player1")
+onready var player = get_tree().get_root().get_node("Player1")
 
 var shootVector = Vector2.ZERO 
 var shootPower = 500

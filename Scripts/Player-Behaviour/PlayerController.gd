@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 # preloads
-onready var player = get_node("Player")
+onready var player = get_node("Player") # player.gd
 onready var playerSprite : Sprite = get_node("PlayerSprite")
 onready var playerHitbox = get_node("PlayerHitbox")
 onready var playerFSM = get_node("PlayerFSM")
@@ -26,7 +26,6 @@ var greenSprite
 var orangeSprite
 
 # onready var offScreenMarker = get_parent().get_node("OffScreenMarker")
-const ARROW = preload("res://Scenes/Arrow.tscn")
 
 # movement variables
 var velocity = Vector2()
@@ -148,9 +147,9 @@ func _process(delta):
 		
 	if releaseFire:
 		if shootPower >= 200:
-			var arrowInst = ARROW.instance()
-			get_parent().add_child(arrowInst)
-			arrowInst.position = get_node("Bow").get_node("ArrowSpawnPosition").global_position
+			var arrowInst = bow.currArrowProjectile.instance()
+			get_tree().get_root().add_child(arrowInst)
+			arrowInst.position = bow.get_node("ArrowSpawnPosition").global_position
 			arrowInst.rotation = shootVector.angle()
 			arrowInst.launch(shootVector * shootPower, self)
 			

@@ -17,7 +17,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "StateMachine",
 "language": "GDScript",
-"path": "res://Scripts/StateMachine.gd"
+"path": "res://Scripts/Player-Behaviour/StateMachine.gd"
 }, {
 "base": "Node",
 "class": "controlInput",

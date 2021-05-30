@@ -16,8 +16,8 @@ var currBounce = 0
 var maxBounce = 2
 
 onready var arrowCollider : CollisionPolygon2D = get_node("ArrowCollider")
-onready var label : Label = get_node("Label")
-onready var timer : Timer = get_node("Timer")
+onready var label : Label = get_node("Label") # debug label for arrow despawn time
+onready var timer : Timer = get_node("Timer") # used for debug label
 
 func _ready():
 	pass
@@ -28,8 +28,7 @@ func _process(delta):
 
 func _physics_process(delta):
 	if active:
-		#label.text = var2str(stepify(timer.time_left, 0.01))
-		
+		#label.text = var2str(stepify(timer.time_left, 0.01))		
 		if launched:
 			velocity += gravity_vec * gravity * mass * delta
 			position += velocity * delta
@@ -39,7 +38,6 @@ func _physics_process(delta):
 			if !destruct:
 				destruct = true
 				timer.set_wait_time(5)
-				#timer.call_deferred("start")
 				timer.start()
 
 
@@ -62,7 +60,8 @@ func _on_Arrow_body_entered(body):
 				body.velocity += velocity
 			
 			velocity = Vector2(0, 0)
-			arrowCollider.disabled = true
+			# arrowCollider.disabled = true
+			set_deferred("arrowCollider:disabled", true)
 			
 			# insert damage/knockback here
 			
@@ -72,7 +71,8 @@ func _on_Arrow_body_entered(body):
 			call_deferred("reparent", body, currPos, currTrans)
 			
 func _on_Arrow_area_entered(area):
-	if "shield" in area.get_name().to_lower():
+	if "shield" in area.get_name().to_lower(): # is this fine? feels kinda hacky but it works so idk
+											   # might break if a future item has the word "shield" in its name
 		currBounce += 1
 
 func reparent(newParent, currPos, currTrans):

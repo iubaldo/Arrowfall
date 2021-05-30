@@ -1,4 +1,4 @@
-extends "res://Scripts/StateMachine.gd"
+extends "res://Scripts/Player-Behaviour/StateMachine.gd"
 
 onready var stateLabel : Label = parent.get_node("StateLabel")
 var canDoubleJump = true

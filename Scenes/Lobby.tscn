@@ -101,6 +101,7 @@ format = 1
 tile_data = PoolIntArray( 589832, 37, 0, 589833, 37, 0, 589834, 37, 0, 589835, 37, 0, 589836, 37, 0, 589839, 37, 0, 589840, 37, 0, 589841, 37, 0, 589842, 37, 0, 589843, 37, 0, 589846, 37, 0, 589847, 37, 0, 589848, 37, 0, 589849, 37, 0, 589850, 37, 0 )
 
 [node name="BackButton" type="TextureButton" parent="Environment"]
+visible = false
 margin_right = 108.0
 margin_bottom = 100.0
 action_mode = 0

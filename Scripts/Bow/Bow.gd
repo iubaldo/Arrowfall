@@ -6,12 +6,16 @@ onready var bowSprite : Sprite = get_node("BowSprite")
 # arrow textures
 onready var basicArrow : Texture = load("res://Sprites/bow and arrow cut/tile005.png")
 
+# arrow scenes
+const BASIC_ARROW = preload("res://Scenes/Arrows/BasicArrowProjectile.tscn")
+
 var mousePos
 var shootPower = 0
 var phase = 0
 
 enum arrowType { BASIC, SPLIT, FEATHER, HEAVY } # move this to a globals class?
 var currArrow = arrowType.BASIC
+var currArrowProjectile = BASIC_ARROW
 
 func _process(delta):
 	if !get_parent().usingController:
@@ -52,8 +56,10 @@ func _process(delta):
 		match currArrow:
 			arrowType.BASIC:
 				$ArrowSprite.texture = basicArrow
+				currArrowProjectile = BASIC_ARROW
 			_:
 				$ArrowSprite.texture = basicArrow
+				currArrowProjectile = BASIC_ARROW
 				
 	else:
 		$ArrowSprite.visible = false
