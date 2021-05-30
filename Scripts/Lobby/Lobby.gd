@@ -33,14 +33,12 @@ onready var P3Controller = get_parent().get_node("./CanvasLayer/Ready-Select UI/
 onready var P4Controller = get_parent().get_node("./CanvasLayer/Ready-Select UI/PlayerControllers/P2Controller")
 onready var VacantController = get_parent().get_node("./CanvasLayer/Ready-Select UI/PlayerControllers/VacantController")
 
+onready var BackButton = get_parent().get_node("./Environment/BackButton")
 
 var num_players = 0
 var num_characters = 0
-var keyboardAvailable = true
 
-var controllerPlayers = [null, null, null, null, null, null, null, null]
-var controllerCharacters = []
-var keyboardPlayer
+var characters = []
 
 var allCharacters = [null, null, null, null]
 
@@ -55,97 +53,63 @@ var headSprites
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print(get_parent())
-	keyboardPlayer = PLAYER.instance()
-	keyboardPlayer.setControls(-1, false)
+
 	VacantBox.visible = true
 	VacantController.visible = true
 	VacantHead.visible = true
 	headSprites = {"hood": [blueHoodHead, redHoodHead, greenHoodHead, orangeHoodHead]}
+
+	BackButton.connect("button_down", self, "_backButton")	
+	BackButton.connect("button_up", self, "_backCancel")
+	
+var timeToaddDestination : float
+
+func _backButton():
+	BackButton.bePressed(8)
+
+func _backCancel():
+	BackButton.beReleased(8)
 	
 	
+
 func _process(delta):
+	if Input.is_action_pressed("debug_startGame"):
+		Main.change_screen("Battle")	
 	if Input.is_action_just_pressed("keyboard_jump"):
-		if (keyboardAvailable):
-			add_character(keyboardPlayer)
+		add_character(ControllerHandler.keyboardPlayer)
 	if Input.is_action_just_pressed("debug_removePlayerKeyboard"):
-		if (!keyboardAvailable):
-			remove_character(keyboardPlayer)
+		remove_character(ControllerHandler.keyboardPlayer)
 	if Input.is_action_just_pressed("debug_change_color_keyboard"):
-		
-		if (!keyboardAvailable):
-			change_color(keyboardPlayer)
-			
-	if (controllerPlayers[0] != null):
-		if Input.is_action_just_pressed("controller_join_game_0"):
-			add_character(controllerPlayers[0])
-		if Input.is_action_just_pressed("controller_leave_game_0"):
-			remove_character(controllerPlayers[0])
-		if Input.is_action_just_pressed("debug_change_color_0"):
-			change_color(controllerPlayers[0])		
-	if (controllerPlayers[1] != null):
-		if Input.is_action_just_pressed("controller_join_game_1"):
-			add_character(controllerPlayers[1])
-		if Input.is_action_just_pressed("controller_leave_game_1"):
-			remove_character(controllerPlayers[1])
-		if Input.is_action_just_pressed("debug_change_color_1"):
-			change_color(controllerPlayers[1])	
-	if (controllerPlayers[2] != null):
-		if Input.is_action_just_pressed("controller_join_game_2"):
-			add_character(controllerPlayers[2])
-		if Input.is_action_just_pressed("controller_leave_game_2"):
-			remove_character(controllerPlayers[2])
-		if Input.is_action_just_pressed("debug_change_color_2"):
-			change_color(controllerPlayers[2])		
-	if (controllerPlayers[3] != null):
-		if Input.is_action_just_pressed("controller_join_game_3"):
-			add_character(controllerPlayers[3])
-		if Input.is_action_just_pressed("controller_leave_game_3"):
-			remove_character(controllerPlayers[3])
-		if Input.is_action_just_pressed("debug_change_color_3"):
-			change_color(controllerPlayers[3])	
-	if (controllerPlayers[4] != null):
-		if Input.is_action_just_pressed("controller_join_game_4"):
-			add_character(controllerPlayers[4])
-		if Input.is_action_just_pressed("controller_leave_game_4"):
-			remove_character(controllerPlayers[4])
-		if Input.is_action_just_pressed("debug_change_color_4"):
-			change_color(controllerPlayers[4])		
-	if (controllerPlayers[5] != null):
-		if Input.is_action_just_pressed("controller_join_game_5"):
-			add_character(controllerPlayers[5])
-		if Input.is_action_just_pressed("controller_leave_game_5"):
-			remove_character(controllerPlayers[5])
-		if Input.is_action_just_pressed("debug_change_color_5"):
-			change_color(controllerPlayers[5])		
-	if (controllerPlayers[6] != null):
-		if Input.is_action_just_pressed("controller_join_game_6"):
-			add_character(controllerPlayers[6])
-		if Input.is_action_just_pressed("controller_leave_game_6"):
-			remove_character(controllerPlayers[6])
-		if Input.is_action_just_pressed("debug_change_color_6"):
-			change_color(controllerPlayers[6])		
-	if (controllerPlayers[7] != null):
-		if Input.is_action_just_pressed("controller_join_game_7"):
-			add_character(controllerPlayers[7])
-		if Input.is_action_just_pressed("controller_leave_game_7"):
-			remove_character(controllerPlayers[7])
-		if Input.is_action_just_pressed("debug_change_color_7"):
-			change_color(controllerPlayers[7])																										
+		for charac in allCharacters:
+			if charac == ControllerHandler.keyboardPlayer:
+				change_color(ControllerHandler.keyboardPlayer)
+				break
+	if Input.is_action_just_pressed("ui_cancel"):
+		BackButton.bePressed(9)
+	if Input.is_action_just_released("ui_cancel"):
+		BackButton.beReleased(9)
+	for i in range(0,7):
+		if (ControllerHandler.controllerPlayers[i] != null):
+			if Input.is_action_just_pressed("controller_accept_" + str(i)):
+				add_character(ControllerHandler.controllerPlayers[i])
+			if Input.is_action_just_pressed("controller_cancel_" + str(i)):
+				BackButton.bePressed(i)
+				remove_character(ControllerHandler.controllerPlayers[i])
+			if Input.is_action_just_released("controller_cancel_" + str(i)):
+				BackButton.beReleased(i)
+			if Input.is_action_just_pressed("debug_change_color_" + str(i)):
+				change_color(ControllerHandler.controllerPlayers[i])																							
 									
-		
-	
-	
 func add_character(player):		
 	print("adding character")
-	for character in controllerCharacters:
+	for character in characters:
 		if character == player:
 			return
-	if (controllerCharacters.size() + int(!keyboardAvailable) >= 4):
+	if (characters.size() >= 4):
 		return
 	get_parent().add_child(player)
 	var charClass = "hood"
-	player.change_class(charClass)
+	player.change_class(charClass)   
 	var colorIndex
 
 	for i in range(0,3):
@@ -174,7 +138,7 @@ func add_character(player):
 			P1Head.visible = true
 			P1Box.visible = true
 			P1Controller.visible = true
-			if player == keyboardPlayer:
+			if player == ControllerHandler.keyboardPlayer:
 				P1Controller.set_texture(keyboardSprite)
 			else:
 				P1Controller.set_texture(controllerSprite)
@@ -191,7 +155,7 @@ func add_character(player):
 			P2Head.visible = true
 			P2Box.visible = true
 			P2Controller.visible = true
-			if player == keyboardPlayer:
+			if player == ControllerHandler.keyboardPlayer:
 				P2Controller.set_texture(keyboardSprite)
 			else:
 				P2Controller.set_texture(controllerSprite)
@@ -204,7 +168,7 @@ func add_character(player):
 			P3Head.visible = true
 			P3Box.visible = true
 			P3Controller.visible = true
-			if player == keyboardPlayer:
+			if player == ControllerHandler.keyboardPlayer:
 				P3Controller.set_texture(keyboardSprite)
 			else:
 				P3Controller.set_texture(controllerSprite)
@@ -217,28 +181,21 @@ func add_character(player):
 			P4Head.visible = true			
 			P4Box.visible = true
 			P4Controller.visible = true
-			if player == keyboardPlayer:
+			if player == ControllerHandler.keyboardPlayer:
 				P4Controller.set_texture(keyboardSprite)
 			else:
 				P4Controller.set_texture(controllerSprite)
 			allCharacters[3] = player			
 			
 	num_characters += 1
-	if keyboardPlayer != player:
-		controllerCharacters.push_back(player)
-	else:
-		keyboardAvailable = false
+	characters.push_back(player)
 	print("player " + var2str(num_characters) + " spawned")
 
 func remove_character(player):
-	var keyboardRemoval = (player == keyboardPlayer)
-	if keyboardRemoval:
-		keyboardAvailable = true
+	if characters.has(player):
+		characters.erase(player)
 	else:
-		if controllerCharacters.has(player):
-			controllerCharacters.erase(player)
-		else:
-			return
+		return
 	if num_characters == 2:
 		VacantController.visible = true
 		VacantBox.visible = true		
@@ -319,78 +276,51 @@ func remove_character(player):
 	get_parent().remove_child(player)
 	num_characters -= 1
 	
-func add_player(id: int):
-	# if (!usingController && !keyboardAvailable) ||
-	if ( id >= 7 ):
-		return
-	num_players += 1
-	var player = PLAYER.instance()
-	controllerPlayers[id] = player
-	player.setControls(id, true)
-
-func remove_player(id: int):
-	
-	var player = controllerPlayers[id]
-	for character in controllerCharacters:
-		if player == character:
-			remove_character(player)
-	player.queue_free()
-	controllerPlayers[id] = null
-	num_players -= 1
-	
-	
 func change_color(player):
-	var existingCharacter = false
-	for character in controllerCharacters:
+	for character in characters:
 		if character == player:
-			existingCharacter = true
-	if player == keyboardPlayer:
-		existingCharacter = true
-		
-	if existingCharacter:
-		#Valid player
-		print("x")
-		var charClass = player.charClass
-		var initialColor = player.color
-		var colorIndex
-		match initialColor:
-			"blue":
-				colorIndex = 0
-			"red":
-				colorIndex = 1
-			"green":
-				colorIndex = 2
-			"orange":
-				colorIndex = 3
-		var i = colorIndex + 1
-		if (i == 4):
-			i = 0
-		while (i != colorIndex):
-			if availableColors[charClass][i] == 1:
-				availableColors[charClass][colorIndex] = 1
-				availableColors[charClass][i] = 0					
-				match i:
-					0:
-						player.change_color("blue")
-					1:
-						player.change_color("red")
-					2:
-						player.change_color("green")						
-					3:	
-						player.change_color("orange")
-				match player.number:
-					1:
-						P1Head.set_texture(headSprites[player.charClass][i])
-					2:
-						P2Head.set_texture(headSprites[player.charClass][i])
-					3:
-						P3Head.set_texture(headSprites[player.charClass][i])
-					4:			
-						P4Head.set_texture(headSprites[player.charClass][i])
-				return	
-			i += 1
+			#Valid player
+			var charClass = player.charClass
+			var initialColor = player.color
+			var colorIndex
+			match initialColor:
+				"blue":
+					colorIndex = 0
+				"red":
+					colorIndex = 1
+				"green":
+					colorIndex = 2
+				"orange":
+					colorIndex = 3
+			var i = colorIndex + 1
 			if (i == 4):
 				i = 0
-		#Return if there are no available colors for this player's class.					
-		return											
+			while (i != colorIndex):
+				if availableColors[charClass][i] == 1:
+					availableColors[charClass][colorIndex] = 1
+					availableColors[charClass][i] = 0					
+					match i:
+						0:
+							player.change_color("blue")
+						1:
+							player.change_color("red")
+						2:
+							player.change_color("green")						
+						3:	
+							player.change_color("orange")
+					match player.number:
+						1:
+							P1Head.set_texture(headSprites[player.charClass][i])
+						2:
+							P2Head.set_texture(headSprites[player.charClass][i])
+						3:
+							P3Head.set_texture(headSprites[player.charClass][i])
+						4:			
+							P4Head.set_texture(headSprites[player.charClass][i])
+					return	
+				i += 1
+				if (i == 4):
+					i = 0
+			#Return if there are no available colors for this player's class.					
+			return											
 	

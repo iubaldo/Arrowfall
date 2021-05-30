@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=21 format=2]
 
-[ext_resource path="res://Scripts/Lobby.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Lobby/Lobby.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/HUD Elements/BackButton5.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/HUD Elements/PlayerBoxes/Vacant.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/HUD Elements/PlayerBoxes/P2Box.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/HUD Elements/ControllerType/controller.png" type="Texture" id=5]
@@ -11,6 +12,26 @@
 [ext_resource path="res://Sprites/PF_Castle_1.0/background_day1.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/HUD Elements/PlayerBoxes/P1Box.png" type="Texture" id=11]
 [ext_resource path="res://Tilesets/PFCastleTileset.tres" type="TileSet" id=12]
+[ext_resource path="res://Sprites/HUD Elements/BackButton3.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/HUD Elements/BackButton6.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/HUD Elements/BackButton2.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/HUD Elements/BackButton4.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/HUD Elements/BackButton7.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/HUD Elements/BackButton1.png" type="Texture" id=18]
+[ext_resource path="res://Scripts/Lobby/BackButton.gd" type="Script" id=19]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 18 ), ExtResource( 15 ), ExtResource( 13 ), ExtResource( 16 ), ExtResource( 2 ), ExtResource( 14 ), ExtResource( 17 ) ],
+"loop": true,
+"name": "BackOut",
+"speed": 5.0
+} ]
 
 [node name="Lobby" type="Node2D"]
 
@@ -79,6 +100,22 @@ collision_mask = 12
 format = 1
 tile_data = PoolIntArray( 589832, 37, 0, 589833, 37, 0, 589834, 37, 0, 589835, 37, 0, 589836, 37, 0, 589839, 37, 0, 589840, 37, 0, 589841, 37, 0, 589842, 37, 0, 589843, 37, 0, 589846, 37, 0, 589847, 37, 0, 589848, 37, 0, 589849, 37, 0, 589850, 37, 0 )
 
+[node name="BackButton" type="TextureButton" parent="Environment"]
+margin_right = 108.0
+margin_bottom = 100.0
+action_mode = 0
+script = ExtResource( 19 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackAnimation" type="AnimatedSprite" parent="Environment/BackButton"]
+position = Vector2( 61.0433, 56.9328 )
+scale = Vector2( 0.485404, 0.485404 )
+frames = SubResource( 1 )
+animation = "BackOut"
+speed_scale = 2.0
+
 [node name="PlayerSpawnPoints" type="Node" parent="."]
 
 [node name="Spawn Point 1" type="Node2D" parent="PlayerSpawnPoints"]
@@ -98,6 +135,7 @@ position = Vector2( 560, 120 )
 [node name="Ready-Select UI" type="Control" parent="CanvasLayer"]
 margin_right = 896.0
 margin_bottom = 504.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
