@@ -5,16 +5,17 @@ onready var bowSprite : Sprite = get_node("BowSprite")
 
 # arrow textures
 onready var basicArrow : Texture = load("res://Sprites/bow and arrow cut/tile005.png")
+onready var spreadArrow : Texture = load("res://Sprites/bow and arrow cut/tile005.png") # change later to diff texture
 
 # arrow scenes
 const BASIC_ARROW = preload("res://Scenes/Arrows/BasicArrowProjectile.tscn")
+const SPREAD_ARROW = preload("res://Scenes/Arrows/SpreadArrowProjectile.tscn")
 
 var mousePos
 var shootPower = 0
 var phase = 0
 
-enum arrowType { BASIC, SPLIT, FEATHER, HEAVY } # move this to a globals class?
-var currArrow = arrowType.BASIC
+var currArrow = Globals.arrowType.BASIC
 var currArrowProjectile = BASIC_ARROW
 
 func _process(delta):
@@ -23,7 +24,7 @@ func _process(delta):
 		rotation += mousePos.angle()
 	else:
 		rotation = get_parent().shootVector.normalized().angle()
-		
+	
 	
 	#update bowSprite by power
 	if shootPower < 200:
@@ -54,9 +55,12 @@ func _process(delta):
 		
 		# set arrow sprite based on arrowType
 		match currArrow:
-			arrowType.BASIC:
+			Globals.arrowType.BASIC:
 				$ArrowSprite.texture = basicArrow
 				currArrowProjectile = BASIC_ARROW
+			Globals.arrowType.SPREAD:
+				$ArrowSprite.texture = spreadArrow
+				currArrowProjectile = SPREAD_ARROW
 			_:
 				$ArrowSprite.texture = basicArrow
 				currArrowProjectile = BASIC_ARROW
@@ -68,13 +72,18 @@ func _process(delta):
 func setShootPower(power : float):
 	shootPower = power
 	
+	
 func setArrowType(type : String):
 	match type.to_lower():
 		"basic":
-			currArrow = arrowType.BASIC
+			currArrow = Globals.arrowType.BASIC
+		"spread":
+			currArrow = Globals.arrowType.SPREAD
 		_:
-			currArrow = arrowType.BASIC
-			
+			currArrow = Globals.arrowType.BASIC
+
+	print("set arrow type to " + type)
+	
 
 func _on_Bow_body_entered(body):
 	# if body == member of "platform":

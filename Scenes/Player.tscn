@@ -76,7 +76,7 @@ nodes/Movement/position = Vector2( 500, 140 )
 nodes/Walk/node = SubResource( 11 )
 nodes/Walk/position = Vector2( -20, 300 )
 nodes/output/position = Vector2( 1180, 140 )
-node_connections = [ "output", 0, "InAirState", "Movement", 0, "Idle", "Movement", 1, "MoveTime", "InAirState", 0, "Movement", "InAirState", 1, "InAir", "InAir", 0, "Fall", "InAir", 1, "Jump", "MoveTime", 0, "Walk" ]
+node_connections = [ "output", 0, "InAirState", "MoveTime", 0, "Walk", "InAir", 0, "Fall", "InAir", 1, "Jump", "Movement", 0, "Idle", "Movement", 1, "MoveTime", "InAirState", 0, "Movement", "InAirState", 1, "InAir" ]
 
 [sub_resource type="RectangleShape2D" id=13]
 

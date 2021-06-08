@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Fonts/Spectral-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/bow and arrow cut/tile005.png" type="Texture" id=2]
-[ext_resource path="res://Scripts/Arrows/BasicArrowProjectile.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/Arrows/SpreadArrowProjectile.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 2.85493, 1.99751 )

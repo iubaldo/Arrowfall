@@ -42,6 +42,7 @@ const AIR_FRICTION = 0.02
 const WALL_JUMP_VELOCITY = Vector2(250, -600)
 const DROP_THRU_BIT = 6 # 7th collision layer
 var snapVector = Vector2.DOWN * 32 # used to correct movement on slopes
+var dirInfluence = 1.0 # scales player's input influence during hitstun/free fall
 
 # state variables
 var isJumping = false
@@ -58,7 +59,6 @@ var canShoot = true
 var chargeRate = 500
 var shootPower = 0
 var maxPower = 1000
-var arrowType = "basic" # change to enum later?
 var aimVector = Vector2()
 var shootVector = Vector2()
 
@@ -162,7 +162,6 @@ func _process(delta):
 		shootPower = 0	
 		
 	bow.setShootPower(shootPower)
-	bow.setArrowType(arrowType)
 	
 	
 	if pressShield && shield.shieldCDTimer.is_stopped():
@@ -206,7 +205,8 @@ func _input(event):
 		velocity.y = MIN_JUMP_VELOCITY
 	elif usingController && event.is_action_released("controller_jump_" + var2str(playerID)) && velocity.y < MIN_JUMP_VELOCITY:
 		velocity.y = MIN_JUMP_VELOCITY
-		
+
+
 func onRespawn():
 	player.stocks -= 1
 	invincible = true

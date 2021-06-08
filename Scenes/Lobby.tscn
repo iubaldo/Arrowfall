@@ -93,6 +93,7 @@ tile_data = PoolIntArray( -65538, 1, 131074, -65537, 1, 12, -131072, 1, 12, -131
 [node name="DropThroughTileMap" type="TileMap" parent="Environment"]
 position = Vector2( 0, -96 )
 scale = Vector2( 2, 2 )
+z_index = -2
 tile_set = ExtResource( 12 )
 cell_size = Vector2( 16, 16 )
 collision_layer = 64

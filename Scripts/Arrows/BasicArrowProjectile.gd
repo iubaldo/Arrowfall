@@ -5,3 +5,7 @@ func _ready():
 	ignoreShield = false
 	maxBounce = 2
 	pass
+
+
+func onLaunch(vel : Vector2, pos : Vector2, rot : float, origin):
+	print("launched basic arrow")

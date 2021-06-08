@@ -38,30 +38,35 @@ func _physics_process(delta):
 			
 		if stuck:
 			if !destruct:
-				print("stuck despawn")
+				# print("stuck despawn")
 				destruct = true
 				despawnTimer.set_wait_time(5)
 				despawnTimer.start()
 
 
-
 func launch(vel : Vector2, pos : Vector2, rot : float, origin):
 	if active:
 		if !launched:
+			onLaunch(vel, pos, rot, origin)
 			launched = true
 			velocity = vel
 			position = pos
 			rotation = rot
 			parent = origin
+	
+	
+func onLaunch(vel : Vector2, pos : Vector2, rot : float, origin):
+	pass
 
 
 func _on_Arrow_body_entered(body):
-	call_deferred("onStuck", body)
-			
-func onStuck(body):
+	# insert damage/knockback here
+	pass
+
+	
+func _on_StuckCollider_body_entered(body):
 	if active:
 		if !stuck && body != parent || ignoreShield:
-			#print(body.name)
 			launched = false
 			stuck = true
 			
@@ -72,17 +77,17 @@ func onStuck(body):
 			# arrowCollider.disabled = true
 			set_deferred("arrowCollider:disabled", true)
 			
-			# insert damage/knockback here
-			
 			#set new parent and correct position
 			var currPos = self.global_position
 			var currTrans = self.global_transform
 			call_deferred("reparent", body, currPos, currTrans)
-			
+
+
 func _on_Arrow_area_entered(area):
 	if "shield" in area.get_name().to_lower(): # is this fine? feels kinda hacky but it works so idk
 											   # might break if a future object has the word "shield" in its name
 		currBounce += 1
+
 
 func reparent(newParent, currPos, currTrans):
 	get_parent().remove_child(self)
@@ -93,13 +98,15 @@ func reparent(newParent, currPos, currTrans):
 
 func _on_VisibilityNotifier2D_screen_exited():
 	call_deferred("visibilityDespawn")
-			
+
+
 func visibilityDespawn():
 	if active && !destruct && !spawnProt:
 		print("visibility despawn")
 		destruct = true
 		despawnTimer.set_wait_time(3)
 		despawnTimer.start()
+
 
 func _on_DespawnTimer_timeout():
 	queue_free()
