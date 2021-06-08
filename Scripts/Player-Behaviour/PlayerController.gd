@@ -55,6 +55,7 @@ var isGrounded = false
 # shooting variables
 var mousePos = Vector2()
 var canShoot = true
+var chargeRate = 500
 var shootPower = 0
 var maxPower = 1000
 var arrowType = "basic" # change to enum later?
@@ -140,7 +141,7 @@ func _process(delta):
 	
 	if pressFire:
 		if shootPower < maxPower:
-			shootPower += 500 * delta
+			shootPower += chargeRate * delta
 			
 			if shootPower > 1000:
 				shootPower = 1000
@@ -149,9 +150,10 @@ func _process(delta):
 		if shootPower >= 200:
 			var arrowInst = bow.currArrowProjectile.instance()
 			get_tree().get_root().add_child(arrowInst)
-			arrowInst.position = bow.get_node("ArrowSpawnPosition").global_position
-			arrowInst.rotation = shootVector.angle()
-			arrowInst.launch(shootVector * shootPower, self)
+			var vel = shootVector * shootPower
+			var pos = bow.get_node("ArrowSpawnPosition").global_position
+			var rot = shootVector.angle()
+			arrowInst.launch(vel, pos, rot, self)
 			
 		# recoil
 		if shootPower >= 500:
@@ -171,7 +173,6 @@ func _process(delta):
 		shield.targetAngle = rad2deg(shootVector.angle()) + 90
 	else:
 		shieldPower = clamp(shieldPower + shieldRegenRate * delta, minShieldPower, maxShieldPower)
-		
 		shield.active = false
 		shieldActive = false
 

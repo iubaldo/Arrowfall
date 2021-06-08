@@ -1,7 +1,7 @@
 extends Area2D
 class_name ArrowProjectile
 
-var mass = 30.0
+var mass = 30
 var velocity = Vector2(0, 0)
 
 var launched = false
@@ -9,6 +9,7 @@ var stuck = false
 var destruct = false
 var parent
 var active = true
+var spawnProt = true
 
 # shield interaction
 var ignoreShield = false
@@ -16,8 +17,9 @@ var currBounce = 0
 var maxBounce = 2
 
 onready var arrowCollider : CollisionPolygon2D = get_node("ArrowCollider")
-onready var label : Label = get_node("Label") # debug label for arrow despawn time
-onready var timer : Timer = get_node("Timer") # used for debug label
+onready var despawnLabel : Label = get_node("DespawnDebugLabel")
+onready var despawnTimer : Timer = get_node("DespawnTimer") 
+onready var spawnProtTimer : Timer = get_node("SpawnProtTimer")
 
 func _ready():
 	pass
@@ -34,22 +36,29 @@ func _physics_process(delta):
 			position += velocity * delta
 			rotation = velocity.angle()
 			
-		if velocity == Vector2(0, 0):
+		if stuck:
 			if !destruct:
+				print("stuck despawn")
 				destruct = true
-				timer.set_wait_time(5)
-				timer.start()
+				despawnTimer.set_wait_time(5)
+				despawnTimer.start()
 
 
-func launch(initVel : Vector2, origin):
+
+func launch(vel : Vector2, pos : Vector2, rot : float, origin):
 	if active:
 		if !launched:
 			launched = true
-			velocity = initVel
+			velocity = vel
+			position = pos
+			rotation = rot
 			parent = origin
 
 
 func _on_Arrow_body_entered(body):
+	call_deferred("onStuck", body)
+			
+func onStuck(body):
 	if active:
 		if !stuck && body != parent || ignoreShield:
 			#print(body.name)
@@ -72,7 +81,7 @@ func _on_Arrow_body_entered(body):
 			
 func _on_Arrow_area_entered(area):
 	if "shield" in area.get_name().to_lower(): # is this fine? feels kinda hacky but it works so idk
-											   # might break if a future item has the word "shield" in its name
+											   # might break if a future object has the word "shield" in its name
 		currBounce += 1
 
 func reparent(newParent, currPos, currTrans):
@@ -83,15 +92,18 @@ func reparent(newParent, currPos, currTrans):
 
 
 func _on_VisibilityNotifier2D_screen_exited():
-	if active:
-		if !destruct:
-			destruct = true
-			timer.set_wait_time(3)
-			timer.start()
+	call_deferred("visibilityDespawn")
+			
+func visibilityDespawn():
+	if active && !destruct && !spawnProt:
+		print("visibility despawn")
+		destruct = true
+		despawnTimer.set_wait_time(3)
+		despawnTimer.start()
 
-
-func _on_Timer_timeout():
+func _on_DespawnTimer_timeout():
 	queue_free()
 
 
-
+func _on_SpawnProtTimer_timeout():
+	spawnProt = false
