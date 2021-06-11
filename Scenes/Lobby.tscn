@@ -127,8 +127,8 @@ __meta__ = {
 
 [node name="BackButton" type="TextureButton" parent="Environment"]
 margin_left = 1.0
-margin_right = 148.0
-margin_bottom = 101.0
+margin_right = 75.0
+margin_bottom = 51.0
 action_mode = 0
 script = ExtResource( 19 )
 __meta__ = {
