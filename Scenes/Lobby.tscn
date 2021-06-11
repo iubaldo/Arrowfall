@@ -136,8 +136,8 @@ __meta__ = {
 }
 
 [node name="BackAnimation" type="AnimatedSprite" parent="Environment/BackButton"]
-position = Vector2( 102.968, 50.594 )
-scale = Vector2( 0.407055, 0.406752 )
+position = Vector2( 52.2063, 25.232 )
+scale = Vector2( 0.204008, 0.203856 )
 frames = SubResource( 1 )
 animation = "BackOut"
 speed_scale = 2.0
