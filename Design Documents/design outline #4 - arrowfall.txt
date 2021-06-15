@@ -25,15 +25,10 @@ main mechanics:
 		holding down the attack button charges up a shot, increasing arrow velocity and power, but slows down the player
 			this also slows down fall speed, but to a lesser extent than other directions of movement, 
 			allowing for mid-air shots to be more effective
-	players also have access to a double jump
+	players also have access to a double jump and wallslide/jump
 	taking damage increases a player's knockback, similar to smash
-	falling outside a boundary box outside the visible screen (again, like smash) results in death for the player
+	falling outside a "blast zone" outside the visible screen (again, like smash) results in death for the player
 		lives work on a stock system, with each death reducing that player's stocks until they run out
-		players who have run out of stocks are given control of a wall-mounted crossbow turret along the sides of the screen
-				players can move up and down along the sides of the screen, as well as switch sides
-				the turret has a limited ammo pool, but recovers slowly over time
-				defeating a living player results in "stealing" their stock and resurrecting with one stock
-					note that the "dead" player only needs to remove a stock, not fully defeat a "living" player in order to be revived
 	each player has access to a directional shield, controlled similarly to their bow
 		similar to the shield in stick fight, shield size decreases the longer it's held out
 		shield effectiveness regenerates over time when not in use
@@ -41,39 +36,40 @@ main mechanics:
 		special arrows replace normal arrows for a limited amount of attacks once used
 		only one item may be held at once
 			pressing the item command when an item is nearby picks it up
+				trying to pick up an item while you already have one swaps it out
 			holding the item command while you have an item drops it
 items:
 	offensive items:
-		hookshot arrow: pulls player towards the arrow once it travels a certain distance or impacts with terrain/another player
+		grapple arrow: pulls user towards the arrow once it travels a certain distance or impacts with terrain/another player
 			1 use
-		shockwave arrow: detonates on impact, knocking away players within a certain radius
+		shockwave arrow: detonates on impact, knocking away nearby players
 			3 uses
-		split arrow: fires 5 arrows at once in a cone
-			3 uses
-		gravity arrow: detonates on impact, attracting players within a certain radius to the point of impact for some amount of time
-			1 use
-		shattershot arrow: fires a massive beam attack that passes through terrain at the cost of greatly increasing the user's knockback percent
-			works similar to a gaster blaster, slight windup with hitbox warning
-			1 use
-		featherweight arrow: fires straight without being affected by gravity
+		split arrow: fires weaker 5 arrows at once in a cone
 			5 uses
+		gravity arrow: detonates on impact, attracting nearby players to the point of impact for short time
+			3 use
+		shattershot arrow: fires a massive beam that passes through terrain at the cost of greatly increasing the user's own knockback percent
+			visually similar to a sans gaster blaster, slight fire delay with hitbox warning
+			1 use
+		featherweight arrow: faster arrow that fires perfectly straight with no projectile drop
+			7 uses
 		delay arrow: arrow stays in place after firing for 2 seconds, then accelerates
-			3 uses
-		heavy arrow: has greatly increased arrow drop, but deals greatly increased damage
-			2 uses
+			5 uses
+		heavy arrow: slower arrow with greatly increased projectile drop, but deals greatly increased damage
+			5 uses
 		recoil arrow: greatly increases recoil player receives when fired
-			2 uses
+			3 uses
 		homing arrow: has a mild homing property once launched
 			3 uses
-		linked arrows: fires two arrows that gravitate towards one another while in flight
-			1 use
+		linked arrows: fires two arrows at opposite angles that gravitate towards one another while in flight
+			7 use
 	defensive/utility items:
 		NOTE: all defensive items are single-use
-
 		personal jump pad: places a slow-falling jump pad directly below the player
-		bubble shield: omnidirectional shield that blocks all arrows for a limited time
-		hi-jump: jump height is increased greatly for a limited time
-		iron boots: greatly decrease knockback, but also increase fall speed for a limited time
+			see: sonic up-b from smash
+		bubble shield: omnidirectional shield that blocks all arrows while active
+		hi-jump: jump height is increased while active
+		iron boots: greatly decrease knockback, but also increase fall speed while active
 			
 environment:
 	platforms/terrain:
@@ -108,6 +104,7 @@ things to think about:
 	teaching players what each item/obstacle does intuitively
 		visual cues
 			held arrows/items reflected in character model
+				quiver
 	local vs online
 		local is easier, but restrictive
 		don't know how to do online features, would need to take time to learn
@@ -115,29 +112,42 @@ things to think about:
 
 
 other potential ideas:
-	character classes with special abilities/arrows
-		time consuming, need to balance
+	additional mechanics:
+		have special arrows affect bow draw speed
+		players who have run out of stocks are given control of a wall-mounted crossbow turret along the sides of the screen
+			players can move up and down along the sides of the screen, as well as switch sides
+			the turret has a limited ammo pool, but recovers slowly over time
+			defeating a living player results in "stealing" their stock and resurrecting with one stock
+				note that the "dead" player only needs to remove a stock, not fully defeat a "living" player in order to be revived
+		blocking/deflecting an arrow depletes shields scaling with how much damage it would've done
+	more standard movement abilities
+		airdash
+		crouch
+			also reduces hurtbox
+		dodge
+			something in the vein of the elenai dodge mod for minecraft, might be used in midair too
+	character classes with special abilities
+		time consuming - need to balance, gather artwork, etc
 		class ideas:
-			short-ranged dash with i-frams
+			short-ranged dash with i-frames
 			wall climb
-			more item slots
+			more inventory space
 			switch to rapid-fire shots that deal less knockback 
-			has a gun with no projectile drop, but needs to perform a perfect reload (like eltnum from uni)
-			sword that can parry projectiles with a short cooldown
-	more uses of specific items
-			
+			has a gun with no projectile drop, but needs to perform a perfect reload
+				see: eltnum from unist
+			sword that can parry/break projectiles with a short cooldown
+			can place runes that accelerate all projectiles that pass through
+				see: ky from guilty gear
+				alternatively, runes reflect arrows that collide with it instead		
 	more gamemodes
 		duel: tower is replaced with set of floating platforms, more like a traditional smash game
-		arena: co=op gamemode where players face off against a boss
+		arena: co-op gamemode where players face off against a boss
 			also time-consuming
-	more movement abilities
-		airdash
-		walljump
 	more level mechanics
 		buttons/switches: shoot with an arrow to active some sort of effect
 			note: buttons should clearly show what they're linked to
 			ex. button linked to explosives on a different (but linked) platform
 			ex. button linked to destroy a linked platform
 	have the tower be like a 3D cylinder, with players scaling the outside and able to move freely around in a circle
-		would need clever engineering of movement physics
-	replace shield with a melee attack that does no damage, but breaks arrows
+		would need clever engineering of movement physics, unrealistic tbh
+
