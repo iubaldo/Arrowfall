@@ -156,8 +156,8 @@ func _process(delta):
 			arrowInst.launch(vel, pos, rot, self)
 			
 		# recoil
-		if shootPower >= 500:
-			velocity += shootVector * shootPower * Vector2(-0.5, -0.25)
+		# if shootPower >= 500:
+		# 	velocity += shootVector * shootPower * Vector2(-0.5, -0.25)
 			
 		shootPower = 0	
 		

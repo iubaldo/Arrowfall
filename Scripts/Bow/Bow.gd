@@ -6,10 +6,12 @@ onready var bowSprite : Sprite = get_node("BowSprite")
 # arrow textures
 onready var basicArrow : Texture = load("res://Sprites/bow and arrow cut/tile005.png")
 onready var spreadArrow : Texture = load("res://Sprites/bow and arrow cut/tile005.png") # change later to diff texture
+onready var linkedArrow : Texture = load("res://Sprites/bow and arrow cut/tile005.png")
 
 # arrow scenes
 const BASIC_ARROW = preload("res://Scenes/Arrows/BasicArrowProjectile.tscn")
 const SPREAD_ARROW = preload("res://Scenes/Arrows/SpreadArrowProjectile.tscn")
+const LINKED_ARROW = preload("res://Scenes/Arrows/LinkedArrowProjectile.tscn")
 
 var mousePos
 var shootPower = 0
@@ -61,6 +63,9 @@ func _process(delta):
 			Globals.arrowType.SPREAD:
 				$ArrowSprite.texture = spreadArrow
 				currArrowProjectile = SPREAD_ARROW
+			Globals.arrowType.LINKED:
+				$ArrowSprite.texture = linkedArrow
+				currArrowProjectile = LINKED_ARROW
 			_:
 				$ArrowSprite.texture = basicArrow
 				currArrowProjectile = BASIC_ARROW
@@ -79,6 +84,8 @@ func setArrowType(type : String):
 			currArrow = Globals.arrowType.BASIC
 		"spread":
 			currArrow = Globals.arrowType.SPREAD
+		"linked":
+			currArrow = Globals.arrowType.LINKED
 		_:
 			currArrow = Globals.arrowType.BASIC
 

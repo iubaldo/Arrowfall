@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scripts/Lobby/Lobby.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/HUD Elements/BackButton5.png" type="Texture" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://Sprites/HUD Elements/BackButton7.png" type="Texture" id=17]
 [ext_resource path="res://Sprites/HUD Elements/BackButton1.png" type="Texture" id=18]
 [ext_resource path="res://Scripts/Lobby/BackButton.gd" type="Script" id=19]
+[ext_resource path="res://Sprites/HUD Elements/backArrow.png" type="Texture" id=20]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -357,3 +358,10 @@ stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="backArrow" type="Sprite" parent="."]
+visible = false
+position = Vector2( 91.2649, 29.1176 )
+scale = Vector2( 0.237233, 0.237233 )
+z_index = 25
+texture = ExtResource( 20 )

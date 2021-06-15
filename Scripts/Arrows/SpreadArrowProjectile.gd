@@ -6,7 +6,7 @@ func _ready():
 	mass = 30.0
 	ignoreShield = false
 	maxBounce = 1
-	pass
+	recoilScale = 2.0
 
 
 func onLaunch(vel : Vector2, pos : Vector2, rot : float, origin):
@@ -14,6 +14,11 @@ func onLaunch(vel : Vector2, pos : Vector2, rot : float, origin):
 	var arrowInst2 = basicArrowProjectile.instance()
 	var arrowInst3 = basicArrowProjectile.instance()
 	var arrowInst4 = basicArrowProjectile.instance()
+	
+	arrowInst1.applyRecoil = false
+	arrowInst2.applyRecoil = false
+	arrowInst3.applyRecoil = false
+	arrowInst4.applyRecoil = false
 	
 	get_tree().get_root().add_child(arrowInst1)
 	get_tree().get_root().add_child(arrowInst2)

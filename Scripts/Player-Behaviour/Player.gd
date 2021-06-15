@@ -6,13 +6,14 @@ var stocks = 3
 var knockback = 0.0
 var inventory = []
 
-var arrows = [Globals.arrowType.BASIC, Globals.arrowType.SPREAD]
+var arrows = [Globals.arrowType.BASIC, Globals.arrowType.SPREAD, Globals.arrowType.LINKED]
 var currArrow = arrows[0]
 
 func _ready():
 	currArrow = arrows[0]
 
 func _process(delta):
+	# debug arrow selection, remove later
 	if Input.is_action_just_pressed("debug_next_item"):
 		if arrows.find(currArrow) + 1 > arrows.size() - 1:
 			currArrow = arrows[0]
@@ -24,6 +25,8 @@ func _process(delta):
 				bow.setArrowType("basic")
 			Globals.arrowType.SPREAD:
 				bow.setArrowType("spread")
+			Globals.arrowType.LINKED:
+				bow.setArrowType("linked")
 			null:
 				bow.setArrowType("basic")
 			_:
@@ -40,6 +43,8 @@ func _process(delta):
 				bow.setArrowType("basic")
 			Globals.arrowType.SPREAD:
 				bow.setArrowType("spread")
+			Globals.arrowType.LINKED:
+				bow.setArrowType("linked")
 			null:
 				bow.setArrowType("basic")
 			_:

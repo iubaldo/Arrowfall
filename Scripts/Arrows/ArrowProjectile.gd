@@ -6,15 +6,18 @@ var velocity = Vector2(0, 0)
 
 var launched = false
 var stuck = false
-var destruct = false
+var destruct = false	# true when marked for despawn
 var parent
 var active = true
 var spawnProt = true
 
+var applyRecoil = true	# should only be true for one arrow if multishot
+var recoilScale = 1
+
 # shield interaction
 var ignoreShield = false
 var currBounce = 0
-var maxBounce = 2
+var maxBounce = 2	# maximum amount of times arrow can be deflected before piercing shields
 
 onready var arrowCollider : CollisionPolygon2D = get_node("ArrowCollider")
 onready var despawnLabel : Label = get_node("DespawnDebugLabel")
@@ -24,17 +27,21 @@ onready var spawnProtTimer : Timer = get_node("SpawnProtTimer")
 func _ready():
 	pass
 	
+	
 func _process(delta):
+	onProcess(delta)
 	if currBounce >= maxBounce:
 		ignoreShield = true
+		
+func onProcess(delta):
+	pass
 
 func _physics_process(delta):
 	if active:
-		#label.text = var2str(stepify(timer.time_left, 0.01))		
+		#label.text = var2str(stepify(timer.time_left, 0.01))
+		onPhysicsProcess(delta)
 		if launched:
-			velocity += gravity_vec * gravity * mass * delta
-			position += velocity * delta
-			rotation = velocity.angle()
+			handleMovement(delta)
 			
 		if stuck:
 			if !destruct:
@@ -44,16 +51,29 @@ func _physics_process(delta):
 				despawnTimer.start()
 
 
+func handleMovement(delta):
+	velocity += gravity_vec * gravity * mass * delta
+	position += velocity * delta
+	rotation = velocity.angle()
+
+
+func onPhysicsProcess(delta):
+	pass
+
+
 func launch(vel : Vector2, pos : Vector2, rot : float, origin):
 	if active:
 		if !launched:
-			onLaunch(vel, pos, rot, origin)
 			launched = true
 			velocity = vel
 			position = pos
 			rotation = rot
 			parent = origin
-	
+			
+			onLaunch(vel, pos, rot, origin)
+			
+			if applyRecoil && velocity.length_squared() > pow(500, 2):
+				parent.velocity += velocity * recoilScale * Vector2(-0.5, -0.25)
 	
 func onLaunch(vel : Vector2, pos : Vector2, rot : float, origin):
 	pass
