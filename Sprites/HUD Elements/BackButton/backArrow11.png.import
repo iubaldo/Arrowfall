@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/back4.png-c9a7f7cafc7a09738e67a7e9236d6a43.stex"
+path="res://.import/backArrow11.png-b6a845005001ac05b6941f9a48aa51fe.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/HUD Elements/BackButton/back4.png"
-dest_files=[ "res://.import/back4.png-c9a7f7cafc7a09738e67a7e9236d6a43.stex" ]
+source_file="res://Sprites/HUD Elements/BackButton/backArrow11.png"
+dest_files=[ "res://.import/backArrow11.png-b6a845005001ac05b6941f9a48aa51fe.stex" ]
 
 [params]
 
