@@ -6,7 +6,7 @@ var stocks = 3
 var knockback = 0.0
 var inventory = []
 
-var arrows = [Globals.arrowType.BASIC, Globals.arrowType.SPREAD, Globals.arrowType.LINKED]
+var arrows = [Globals.arrowType.BASIC, Globals.arrowType.SPREAD, Globals.arrowType.LINKED, Globals.arrowType.GRAPPLE]
 var currArrow = arrows[0]
 
 func _ready():
@@ -27,6 +27,8 @@ func _process(delta):
 				bow.setArrowType("spread")
 			Globals.arrowType.LINKED:
 				bow.setArrowType("linked")
+			Globals.arrowType.GRAPPLE:
+				bow.setArrowType("grapple")
 			null:
 				bow.setArrowType("basic")
 			_:
@@ -45,6 +47,8 @@ func _process(delta):
 				bow.setArrowType("spread")
 			Globals.arrowType.LINKED:
 				bow.setArrowType("linked")
+			Globals.arrowType.GRAPPLE:
+				bow.setArrowType("grapple")
 			null:
 				bow.setArrowType("basic")
 			_:

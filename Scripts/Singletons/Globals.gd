@@ -1,3 +1,3 @@
 extends Node
 
-enum arrowType { BASIC, SPREAD, LINKED, FEATHER, HEAVY }
+enum arrowType { BASIC, SPREAD, LINKED, GRAPPLE, FEATHER, HEAVY }

@@ -53,6 +53,11 @@ var stasis = false
 var invincible = false
 var isGrounded = false
 
+var grappleChain = null
+var hooked = false
+var chainVelocity := Vector2(0, 0)
+var chainPull = 32
+
 # shooting variables
 var mousePos = Vector2()
 var canShoot = true
@@ -180,6 +185,22 @@ func _process(delta):
 func _physics_process(delta):
 	checkIsGrounded()
 	
+	# grapple arrow movement calculations
+	if hooked && grappleChain != null:
+		chainVelocity = (grappleChain.global_position - global_position).normalized() * chainPull
+		
+		if chainVelocity.y > 0:
+			chainVelocity.y *= 0.55	# pulling downwards is weaker
+		else:
+			chainVelocity.y *- 1.65	# pulling upwards is stronger
+			
+		if sign(chainVelocity.x) != sign(velocity.x):
+			chainVelocity.x *= 0.7	# if we are trying to move in a different direction than the chain, reduce its pull
+		
+		print(var2str(chainVelocity))
+	else:
+		chainVelocity = Vector2(0, 0)
+	
 	# sprite direction
 	if wallDirection == 0:
 		if !usingController:
@@ -213,8 +234,8 @@ func onRespawn():
 	stasis = true
 	velocity = Vector2.ZERO
 	respawnStasisTimer.start()
-	
-		
+
+
 func getHWeight():
 	if is_on_floor():
 		return 0.2
@@ -225,16 +246,16 @@ func getHWeight():
 			return 0.0
 		else: 
 			return 0.1
-			
-			
+
+
 func handleWallStick():
 	if handleMoveInput().normalized().x != 0 && handleMoveInput().normalized().x != wallDirection:
 		if wallStickTimer.is_stopped():
 			wallStickTimer.start()
 	else:
 		wallStickTimer.stop()
-		
-		
+
+
 func handleMoveInput():
 	var moveVector = Vector2.ZERO
 	if !usingController:
@@ -269,8 +290,9 @@ func applyMovement(inputVector, delta):
 				velocity.x = lerp(velocity.x, 0, AIR_FRICTION)
 
 		velocity.y = move_and_slide_with_snap(velocity, snapVector, Vector2.UP, true, 4, deg2rad(60)).y
-		
-		
+		velocity += chainVelocity
+
+
 func jump():
 	velocity.y = MAX_JUMP_VELOCITY
 	isJumping = true
@@ -340,6 +362,7 @@ func change_class(newCharClass):
 			redSprite = load("res://Sprites/hooded figure cut/redHoodTileset.png")
 			greenSprite = load("res://Sprites/hooded figure cut/greenHoodTileset.png")
 			orangeSprite = load("res://Sprites/hooded figure cut/orangeHoodTileset.png")
+
 
 func change_color(newColor):
 	color = newColor

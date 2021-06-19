@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tile005.png-92a8345b66550f8190e20e2c6c362fef.stex"
+path="res://.import/tile001.png-d4cf56e5eb5efe77dcbd91157f45ce16.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/bow and arrow cut/tile005.png"
-dest_files=[ "res://.import/tile005.png-92a8345b66550f8190e20e2c6c362fef.stex" ]
+source_file="res://Sprites/Arrows/bow and arrow cut/tile001.png"
+dest_files=[ "res://.import/tile001.png-d4cf56e5eb5efe77dcbd91157f45ce16.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

@@ -7,6 +7,7 @@ func _ready():
 	ignoreShield = false
 	maxBounce = 1
 	recoilScale = 2.0
+	stuckDespawnTime = 3
 
 
 func onLaunch(vel : Vector2, pos : Vector2, rot : float, origin):

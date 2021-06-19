@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/Bow/Bow.gd" type="Script" id=1]
-[ext_resource path="res://Sprites/bow and arrow cut/Bow and Arrows (1).png" type="Texture" id=2]
-[ext_resource path="res://Sprites/bow and arrow cut/tile005.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Arrows/bow and arrow cut/Bow and Arrows (1).png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Arrows/bow and arrow cut/tile005.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 5.70239, 3.9077 )

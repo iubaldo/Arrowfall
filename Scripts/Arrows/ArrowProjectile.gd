@@ -4,8 +4,8 @@ class_name ArrowProjectile
 var mass = 30
 var velocity = Vector2(0, 0)
 
-var launched = false
-var stuck = false
+var flying = false		# true if arrow is currently in the air
+var stuck = false		# true after arrow gets stuck in something
 var destruct = false	# true when marked for despawn
 var parent
 var active = true
@@ -13,6 +13,9 @@ var spawnProt = true
 
 var applyRecoil = true	# should only be true for one arrow if multishot
 var recoilScale = 1
+
+var stuckDespawnTime = 5 		# time to despawn after stuck in seconds
+var visibilityDespawnTime = 3	# time to despawn after leaving screen view in sceonds
 
 # shield interaction
 var ignoreShield = false
@@ -27,27 +30,29 @@ onready var spawnProtTimer : Timer = get_node("SpawnProtTimer")
 func _ready():
 	pass
 	
-	
+
 func _process(delta):
 	onProcess(delta)
 	if currBounce >= maxBounce:
 		ignoreShield = true
-		
+
+
 func onProcess(delta):
 	pass
+
 
 func _physics_process(delta):
 	if active:
 		#label.text = var2str(stepify(timer.time_left, 0.01))
 		onPhysicsProcess(delta)
-		if launched:
+		if flying:
 			handleMovement(delta)
 			
 		if stuck:
 			if !destruct:
 				# print("stuck despawn")
 				destruct = true
-				despawnTimer.set_wait_time(5)
+				despawnTimer.set_wait_time(stuckDespawnTime)
 				despawnTimer.start()
 
 
@@ -63,8 +68,8 @@ func onPhysicsProcess(delta):
 
 func launch(vel : Vector2, pos : Vector2, rot : float, origin):
 	if active:
-		if !launched:
-			launched = true
+		if !flying:
+			flying = true
 			velocity = vel
 			position = pos
 			rotation = rot
@@ -74,7 +79,8 @@ func launch(vel : Vector2, pos : Vector2, rot : float, origin):
 			
 			if applyRecoil && velocity.length_squared() > pow(500, 2):
 				parent.velocity += velocity * recoilScale * Vector2(-0.5, -0.25)
-	
+
+
 func onLaunch(vel : Vector2, pos : Vector2, rot : float, origin):
 	pass
 
@@ -83,11 +89,12 @@ func _on_Arrow_body_entered(body):
 	# insert damage/knockback here
 	pass
 
-	
+
 func _on_StuckCollider_body_entered(body):
 	if active:
 		if !stuck && body != parent || ignoreShield:
-			launched = false
+			onStuck(body)
+			flying = false
 			stuck = true
 			
 			if body.get_collision_layer() == 1:
@@ -101,6 +108,10 @@ func _on_StuckCollider_body_entered(body):
 			var currPos = self.global_position
 			var currTrans = self.global_transform
 			call_deferred("reparent", body, currPos, currTrans)
+
+
+func onStuck(body):
+	pass
 
 
 func _on_Arrow_area_entered(area):
@@ -124,12 +135,17 @@ func visibilityDespawn():
 	if active && !destruct && !spawnProt:
 		print("visibility despawn")
 		destruct = true
-		despawnTimer.set_wait_time(3)
+		despawnTimer.set_wait_time(visibilityDespawnTime)
 		despawnTimer.start()
 
 
 func _on_DespawnTimer_timeout():
+	onDespawn()
 	queue_free()
+
+
+func onDespawn():
+	pass
 
 
 func _on_SpawnProtTimer_timeout():

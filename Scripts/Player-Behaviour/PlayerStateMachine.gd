@@ -11,7 +11,8 @@ func _ready():
 	addState("wallSlide")
 	
 	call_deferred("setState", states.idle)
-	
+
+
 func _process(delta):
 	stateLabel.text = states.keys()[state]
 	
@@ -32,19 +33,19 @@ func _process(delta):
 			elif [states.jump, states.fall].has(state) && canDoubleJump:
 				# parent.velocity.y = parent.JUMPFORCE
 				parent.jump()
-				canDoubleJump = false	
+				canDoubleJump = false
 				setState(states.jump)
+				
+				if parent.hooked && parent.grappleChain != null:
+					parent.hooked = false
+					parent.grappleChain.queue_free()
 			
 	# jump forgiveness
 	if ([states.idle, states.run].has(state) || !parent.coyoteTimer.is_stopped()) && !parent.jumpForgivenessTimer.is_stopped():
 		parent.coyoteTimer.stop()
 		parent.jumpForgivenessTimer.stop()
 		parent.jump()
-	
-		
-	#	if [states.jump, states.doubleJump].has(state):
-		# variable jump height here
-	#		pass
+
 
 # virtual
 func stateLogic(delta): 
@@ -60,6 +61,7 @@ func stateLogic(delta):
 	if state == states.wallSlide:
 		parent.capGravityWallSlide()
 		parent.handleWallStick()
+
 
 # virtual
 func getTransition(delta): 
@@ -124,7 +126,8 @@ func enterState(newState, oldState):
 			parent.animTree.set("parameters/InAirState/current", 1)
 		states.wallSlide:
 			parent.animTree.set("parameters/InAir/current", 0)
-			parent.animTree.set("parameters/InAirState/current", 1)			
+			parent.animTree.set("parameters/InAirState/current", 1)
+
 
 # virtual
 func exitState(oldState, newState):
@@ -132,6 +135,7 @@ func exitState(oldState, newState):
 		states.wallSlide:
 			#canDoubleJump = true
 			parent.wallSlideCDTimer.start()
+
 
 func _on_WallStickTimer_timeout():
 	if state == states.wallSlide:
