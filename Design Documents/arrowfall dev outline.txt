@@ -1,6 +1,6 @@
 to-do:
-controls:
 
+controls:
 bow + mouse tracking - DONE
 camera follow
 controller support - DONE
@@ -14,7 +14,6 @@ coyote time - DONE
 
 
 systems:
-
 walking - DONE
 jump/double jump - DONE
 shoot arrow - DONE
@@ -59,37 +58,35 @@ items
 		context-sensitive item button
 			switch between normal arrows and special arrows if available
 			item dropping/switching when standing over another item while one is already held
-				alternatively, item dropping only when holding down + item button
-
-
+				alternatively, item dropping only when holding down direction + item button
+move global variables to a singleton class
+	tile size - doesn't work for some reason idk
+	arrow types - DONE
+	items
 offscreen icon
 	portrait of player pointing in their direction while offscreen
-
-
 map generation:
-
 procedural level generation
 	platform types
 	platform spawning
 	
 
 sprites/animation:
-
 tilesetting
 	parallax
 animations
 	player - DONE
 	bow - DONE
 
-graphics:
 
-figure out proper resolution/sprite scale - DONE? might want to increase amount of tiles on screen, but would need to 
-	rescale everything else to fit
+graphics:
+figure out proper resolution/sprite scale - DONE
+	will probably want to decrease sprite scales to allow for more tiles on the screen at once
+
 
 sound
 	sfx
 	music
-
 
 
 multiplayer:
@@ -99,6 +96,36 @@ pre-game player selection menu
 local multiplayer
 online multiplayer?
 
-misc fixes:
-arrow/player hitboxes
+
+list of Z-layers:
+-20: background_day1
+-19: background_day2
+-18: background_day3
+-3: BackgroundTileMap
+-2: ForegroundTileMap
+-2: DropThroughTileMap
+-1: arrows
+ 0: PhysicalTileMap
+ 0: Bow
+ 1: Player
+100: Shield
+
+
+bugs that need fixing:
+arrow/player hitboxes - DONE
 	arrows currently stop too quickly when hitting players, causing them to float on the edge of the hitbox instead of penetrating more deeply
+recoil is applied weirdly depending on current velocity
+	recoil in the opposite direction of movement is basically nullified
+	recoil in the same direction of movement seems amplified
+seems to be some memory leaks judging by the console print upon exiting the game
+
+
+for polish:
+update variable names
+	add typing markers to inputs
+	put underscores in front of variables so warnings stop pestering us
+particle effects when an arrow collides with terrain
+arrow "flight trails"
+when two arrows collide mid-flight, the faster one should break through the slow one
+	the "broken" arrow simply splits into two pieces and falls down through terrain
+
