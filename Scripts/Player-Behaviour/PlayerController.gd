@@ -186,7 +186,7 @@ func _physics_process(delta):
 	checkIsGrounded()
 	
 	# grapple arrow movement calculations
-	if hooked && grappleChain != null:
+	if hooked && grappleChain != null && is_instance_valid(grappleChain):
 		chainVelocity = (grappleChain.global_position - global_position).normalized() * chainPull
 		
 		if chainVelocity.y > 0:

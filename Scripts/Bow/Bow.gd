@@ -8,12 +8,14 @@ onready var basicArrow : Texture = load("res://Sprites/Arrows/bow and arrow cut/
 onready var spreadArrow : Texture = load("res://Sprites/Arrows/bow and arrow cut/tile005.png") # change later to diff texture
 onready var linkedArrow : Texture = load("res://Sprites/Arrows/bow and arrow cut/tile005.png")
 onready var grappleArrow : Texture = load("res://Sprites/Arrows/bow and arrow cut/tile005.png")
+onready var ricochetArrow : Texture = load("res://Sprites/Arrows/bow and arrow cut/tile005.png")
 
 # arrow scenes
 const BASIC_ARROW = preload("res://Scenes/Arrows/BasicArrowProjectile.tscn")
 const SPREAD_ARROW = preload("res://Scenes/Arrows/SpreadArrowProjectile.tscn")
 const LINKED_ARROW = preload("res://Scenes/Arrows/LinkedArrowProjectile.tscn")
 const GRAPPLE_ARROW = preload("res://Scenes/Arrows/GrappleArrowProjectile.tscn")
+const RICOCHET_ARROW = preload("res://Scenes/Arrows/RicochetArrowProjectile.tscn")
 
 var mousePos
 var shootPower = 0
@@ -71,6 +73,8 @@ func _process(delta):
 			Globals.arrowType.GRAPPLE:
 				$ArrowSprite.texture = grappleArrow
 				currArrowProjectile = GRAPPLE_ARROW
+			Globals.arrowType.RICOCHET:
+				currArrowProjectile = RICOCHET_ARROW
 			_:
 				$ArrowSprite.texture = basicArrow
 				currArrowProjectile = BASIC_ARROW
@@ -93,6 +97,8 @@ func setArrowType(type : String):
 			currArrow = Globals.arrowType.LINKED
 		"grapple":
 			currArrow = Globals.arrowType.GRAPPLE
+		"ricochet":
+			currArrow = Globals.arrowType.RICOCHET
 		_:
 			currArrow = Globals.arrowType.BASIC
 

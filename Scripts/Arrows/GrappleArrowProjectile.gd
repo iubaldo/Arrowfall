@@ -10,7 +10,7 @@ var enemyStuck = false
 
 func _ready():
 	mass = 30.0
-	ignoreShield = false
+	ignoreShield = true
 	maxBounce = 1
 	stuckDespawnTime = 7.5
 

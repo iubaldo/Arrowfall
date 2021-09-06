@@ -44,8 +44,7 @@ Globals="*res://Scripts/Singletons/Globals.gd"
 
 [display]
 
-window/size/width=896
-window/size/height=504
+window/size/height=576
 window/size/test_width=1280
 window/size/test_height=720
 window/dpi/allow_hidpi=true

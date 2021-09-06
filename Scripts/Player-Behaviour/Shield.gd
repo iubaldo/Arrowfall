@@ -79,6 +79,7 @@ func _on_Shield_area_entered(area):
 	# print("hit: " + var2str(hitAngle > correctedFrom && hitAngle < correctedTo))
 	# print(var2str(position.direction_to(get_local_mouse_position())))
 	
+	# fix this later to work with controller aiming
 	if "arrow" in area.get_name().to_lower():	
 		if (hitAngle > correctedFrom && hitAngle < correctedTo && !area.ignoreShield):
 			area.velocity = area.velocity.length() * (0.25 + perfectParryTimer.time_left / perfectParryTimer.wait_time) \

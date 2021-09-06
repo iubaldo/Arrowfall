@@ -98,7 +98,7 @@ func _on_StuckCollider_body_entered(body):
 			stuck = true
 			
 			if body.get_collision_layer() == 1:
-				body.velocity += velocity
+				body.velocity += velocity	# temporary knockback implementation
 			
 			velocity = Vector2(0, 0)
 			# arrowCollider.disabled = true
