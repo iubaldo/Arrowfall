@@ -101,7 +101,7 @@ func _process(delta):
 				change_color(ControllerHandler.controllerPlayers[i])																							
 									
 func add_character(player):		
-	print("adding character")
+	# print("adding character")
 	for character in characters:
 		if character == player:
 			return

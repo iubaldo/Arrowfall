@@ -13,7 +13,7 @@ func _ready():
 	call_deferred("setState", states.idle)
 
 
-func _process(delta):
+func _process(_delta):
 	stateLabel.text = states.keys()[state]
 	
 	var input = parent.handleMoveInput()
@@ -36,7 +36,7 @@ func _process(delta):
 				canDoubleJump = false
 				setState(states.jump)
 				
-				if parent.hooked && parent.grappleChain != null:
+				if parent.hooked && parent.grappleChain != null && is_instance_valid(parent.grappleChain):
 					parent.hooked = false
 					parent.grappleChain.queue_free()
 			
@@ -64,7 +64,7 @@ func stateLogic(delta):
 
 
 # virtual
-func getTransition(delta): 
+func getTransition(_delta): 
 	match state:
 		states.idle:
 			if !parent.is_on_floor():
@@ -105,7 +105,7 @@ func getTransition(delta):
 	
 	
 # virtual
-func enterState(newState, oldState):
+func enterState(newState, _oldState):
 	match newState:
 		states.idle:
 			canDoubleJump = true
@@ -130,7 +130,7 @@ func enterState(newState, oldState):
 
 
 # virtual
-func exitState(oldState, newState):
+func exitState(oldState, _newState):
 	match oldState:
 		states.wallSlide:
 			#canDoubleJump = true

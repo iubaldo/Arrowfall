@@ -18,6 +18,7 @@ onready var groundcasts = get_node("Groundcasts")
 onready var bow : Area2D = get_node("Bow")
 onready var shield : Node2D = get_node("Shield")
 onready var animTree = get_node("AnimationTree")
+onready var respawnPlatform = get_node("RespawnPlatform")
 
 # sprites
 var blueSprite
@@ -45,12 +46,11 @@ var snapVector = Vector2.DOWN * 32 # used to correct movement on slopes
 var dirInfluence = 1.0 # scales player's input influence during hitstun/free fall
 
 # state variables
-var isJumping = false
+var isJumping = false 
 var doubleJump = true
 var wallDirection = 1
 var useGravity = true
 var stasis = false
-var invincible = false
 var isGrounded = false
 
 var grappleChain = null
@@ -104,17 +104,11 @@ func setControls(ID: int, controller: bool):
 	
 	
 func _process(delta):
-	if !respawnStasisTimer.is_stopped():
-		useGravity = false
-		invincible = true
-	else:
-		useGravity = true
-		invincible = false
-	
-	playerHitbox.disabled = true if invincible else false
+	#if usingController:
+	#	print(var2str(shootVector))
 	
 	if isGrounded:
-		snapVector = Vector2.DOWN * 32		
+		snapVector = Vector2.DOWN * 32
 	if pressJump:
 			snapVector = Vector2.ZERO
 	
@@ -136,13 +130,13 @@ func _process(delta):
 		releaseFire = true if Input.is_action_just_released("keyboard_fire") else false
 		pressShield = true if Input.is_action_pressed("keyboard_shield") else false
 		pressJump = true if Input.is_action_just_pressed("keyboard_jump") else false
-		releasedJump = true if !Input.is_action_pressed("keyboard_jump") else false
+		releasedJump = true if Input.is_action_just_released("keyboard_jump") else false
 	else:
 		pressFire = true if Input.is_action_pressed("controller_fire_" + var2str(playerID)) else false
 		releaseFire = true if Input.is_action_just_released("controller_fire_" + var2str(playerID)) else false
 		pressShield = true if Input.is_action_pressed("controller_shield_" + var2str(playerID)) else false
 		pressJump = true if Input.is_action_just_pressed("controller_jump_" + var2str(playerID)) else false
-		releasedJump = true if !Input.is_action_pressed("controller_jump_" + var2str(playerID)) else false
+		releasedJump = true if Input.is_action_just_released("controller_jump_" + var2str(playerID)) else false
 	
 	if pressFire:
 		if shootPower < maxPower:
@@ -159,13 +153,8 @@ func _process(delta):
 			var pos = bow.get_node("ArrowSpawnPosition").global_position
 			var rot = shootVector.angle()
 			arrowInst.launch(vel, pos, rot, self)
-			
-		# recoil
-		# if shootPower >= 500:
-		# 	velocity += shootVector * shootPower * Vector2(-0.5, -0.25)
-			
 		shootPower = 0	
-		
+			
 	bow.setShootPower(shootPower)
 	
 	
@@ -182,7 +171,7 @@ func _process(delta):
 
 	
 # Called 60 times per second
-func _physics_process(delta):
+func _physics_process(_delta):
 	checkIsGrounded()
 	
 	# grapple arrow movement calculations
@@ -218,22 +207,13 @@ func _physics_process(delta):
 		
 		
 func _input(event):
-	if event is InputEventKey && (stasis || invincible):
-		stasis = false
-		invincible = false
 	
-	if !usingController && event.is_action_released("keyboard_jump") && velocity.y < MIN_JUMP_VELOCITY:
-		velocity.y = MIN_JUMP_VELOCITY
-	elif usingController && event.is_action_released("controller_jump_" + var2str(playerID)) && velocity.y < MIN_JUMP_VELOCITY:
-		velocity.y = MIN_JUMP_VELOCITY
-
-
-func onRespawn():
-	player.stocks -= 1
-	invincible = true
-	stasis = true
-	velocity = Vector2.ZERO
-	respawnStasisTimer.start()
+	# if the player takes any action before respawn stasis expires
+	if (stasis && (event is InputEventKey || event is InputEventMouseButton || event is InputEventJoypadButton)):
+		_on_RespawnStasisTimer_timeout()
+	
+	# if pressJump && velocity.y < MIN_JUMP_VELOCITY:
+	# 	velocity.y = MIN_JUMP_VELOCITY
 
 
 func getHWeight():
@@ -345,9 +325,25 @@ func getWallDirection():
 		wallDirection = 0
 
 
+func onRespawn():
+	print("onRespawn")
+	respawnStasisTimer.start()
+	player.stocks -= 1
+	stasis = true
+	useGravity = false
+	playerHitbox.disabled = false
+	velocity = Vector2.ZERO
+	respawnPlatform.visible = true
+	
+	# for i in range (0, 10):
+	# 	velocity.y = 0.1
+		
+
 func _on_RespawnStasisTimer_timeout():
 	stasis = false
-	invincible = false
+	useGravity = true
+	playerHitbox.disabled = true
+	respawnPlatform.visible = false
 	
 
 func _on_PlatformDetector_body_exited(body):

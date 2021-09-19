@@ -1,9 +1,8 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Scripts/Player-Behaviour/Blastzone.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/PF_Castle_1.0/mainlevbuild_A.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/Player-Behaviour/PlayerManager.gd" type="Script" id=3]
-[ext_resource path="res://Scenes/TestArrowShooter.tscn" type="PackedScene" id=5]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
@@ -570,9 +569,6 @@ visible = false
 position = Vector2( 500, 300 )
 scale = Vector2( 75, 50 )
 shape = SubResource( 43 )
-
-[node name="TestShooter1" parent="." instance=ExtResource( 5 )]
-position = Vector2( 753.36, 180.828 )
 
 [node name="PlayerSpawnPoint1" type="Node2D" parent="."]
 position = Vector2( 112, 168 )
