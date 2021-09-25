@@ -70,7 +70,7 @@ func getTransition(delta):
 			if !parent.is_on_floor():
 				if parent.velocity.y < 0:
 					return states.jump
-				elif parent.velocity.y > 0:
+				elif !parent.stasis && parent.velocity.y > 0:
 					return states.fall
 			elif abs(parent.velocity.x) >= 16:
 				return states.run
@@ -92,7 +92,7 @@ func getTransition(delta):
 		states.fall:
 			if parent.wallDirection != 0 && parent.wallSlideCDTimer.is_stopped():
 				return states.wallSlide
-			elif parent.is_on_floor():
+			elif parent.is_on_floor() || parent.stasis:
 				return states.idle
 			elif parent.velocity.y < 0:
 				return states.jump

@@ -1,9 +1,8 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Scripts/Player-Behaviour/Blastzone.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/PF_Castle_1.0/mainlevbuild_A.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/Player-Behaviour/PlayerManager.gd" type="Script" id=3]
-[ext_resource path="res://Scenes/TestArrowShooter.tscn" type="PackedScene" id=5]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
@@ -559,7 +558,7 @@ cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 collision_layer = 2
 collision_mask = 15
 format = 1
-tile_data = PoolIntArray( 524289, 2, 0, 524290, 1, 2, 524291, 1, 3, 524292, 1, 2, 524293, 3, 0, 524310, 2, 0, 524311, 1, 2, 524312, 1, 0, 524313, 1, 1, 524314, 3, 0, 720903, 2, 0, 720904, 1, 1, 720905, 1, 0, 720906, 1, 0, 720907, 1, 3, 720908, 1, 2, 720909, 1, 2, 720910, 1, 0, 720911, 1, 3, 720912, 1, 1, 720913, 1, 3, 720914, 1, 1, 720915, 1, 0, 720916, 3, 0 )
+tile_data = PoolIntArray( 720899, 1, 0, 720900, 1, 0, 720901, 1, 0, 720902, 1, 0, 720903, 1, 0, 720920, 1, 0, 720921, 1, 0, 720922, 1, 0, 720923, 1, 0, 720924, 1, 0, 983050, 1, 0, 983051, 1, 0, 983052, 1, 0, 983053, 1, 0, 983054, 1, 0, 983055, 1, 0, 983056, 1, 0, 983057, 1, 0, 983058, 1, 0, 983059, 1, 0, 983060, 1, 0 )
 
 [node name="BlastZone" type="Area2D" parent="."]
 collision_layer = 16
@@ -571,13 +570,10 @@ position = Vector2( 500, 300 )
 scale = Vector2( 75, 50 )
 shape = SubResource( 43 )
 
-[node name="TestShooter1" parent="." instance=ExtResource( 5 )]
-position = Vector2( 753.36, 180.828 )
-
 [node name="PlayerSpawnPoint1" type="Node2D" parent="."]
-position = Vector2( 112, 168 )
+position = Vector2( 181, 232 )
 
 [node name="PlayerSpawnPoint2" type="Node2D" parent="."]
-position = Vector2( 784, 168 )
+position = Vector2( 849, 242 )
 
 [connection signal="body_exited" from="BlastZone" to="PlayerManager" method="_on_BlastZone_body_exited"]

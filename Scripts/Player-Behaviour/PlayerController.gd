@@ -18,6 +18,7 @@ onready var groundcasts = get_node("Groundcasts")
 onready var bow : Area2D = get_node("Bow")
 onready var shield : Node2D = get_node("Shield")
 onready var animTree = get_node("AnimationTree")
+onready var respawnPlatform = get_node("RespawnPlatform")
 
 # sprites
 var blueSprite
@@ -48,9 +49,7 @@ var dirInfluence = 1.0 # scales player's input influence during hitstun/free fal
 var isJumping = false
 var doubleJump = true
 var wallDirection = 1
-var useGravity = true
 var stasis = false
-var invincible = false
 var isGrounded = false
 
 var grappleChain = null
@@ -104,19 +103,11 @@ func setControls(ID: int, controller: bool):
 	
 	
 func _process(delta):
-	if !respawnStasisTimer.is_stopped():
-		useGravity = false
-		invincible = true
-	else:
-		useGravity = true
-		invincible = false
-	
-	playerHitbox.disabled = true if invincible else false
 	
 	if isGrounded:
 		snapVector = Vector2.DOWN * 32		
 	if pressJump:
-			snapVector = Vector2.ZERO
+		snapVector = Vector2.ZERO
 	
 	if shootPower != 0:
 		powerLabel.text = var2str(int(shootPower))
@@ -218,22 +209,14 @@ func _physics_process(delta):
 		
 		
 func _input(event):
-	if event is InputEventKey && (stasis || invincible):
-		stasis = false
-		invincible = false
+	if (stasis && (event is InputEventKey || event is InputEventMouseButton || event is InputEventJoypadButton)):
+		respawnStasisTimer.stop()
+		_on_RespawnStasisTimer_timeout()
 	
 	if !usingController && event.is_action_released("keyboard_jump") && velocity.y < MIN_JUMP_VELOCITY:
 		velocity.y = MIN_JUMP_VELOCITY
 	elif usingController && event.is_action_released("controller_jump_" + var2str(playerID)) && velocity.y < MIN_JUMP_VELOCITY:
 		velocity.y = MIN_JUMP_VELOCITY
-
-
-func onRespawn():
-	player.stocks -= 1
-	invincible = true
-	stasis = true
-	velocity = Vector2.ZERO
-	respawnStasisTimer.start()
 
 
 func getHWeight():
@@ -291,6 +274,8 @@ func applyMovement(inputVector, delta):
 
 		velocity.y = move_and_slide_with_snap(velocity, snapVector, Vector2.UP, true, 4, deg2rad(60)).y
 		velocity += chainVelocity
+	else:
+		move_and_slide(Vector2(0, 3), Vector2.UP)
 
 
 func jump():
@@ -306,7 +291,7 @@ func wallJump():
 	
 	
 func applyGravity(delta):
-	if useGravity && !stasis && !isGrounded:
+	if !stasis && !isGrounded:
 		velocity.y += GRAVITY * delta
 		if isJumping && velocity.y >= 0:
 			isJumping = false
@@ -345,9 +330,19 @@ func getWallDirection():
 		wallDirection = 0
 
 
+func onRespawn():
+	respawnStasisTimer.start()
+	player.stocks -= 1
+	stasis = true
+	velocity = Vector2.ZERO
+	playerHitbox.set_deferred("Disabled", true)
+	respawnPlatform.visible = true
+	
+
 func _on_RespawnStasisTimer_timeout():
 	stasis = false
-	invincible = false
+	playerHitbox.set_deferred("Disabled", false)
+	respawnPlatform.visible = false
 	
 
 func _on_PlatformDetector_body_exited(body):
